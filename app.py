@@ -13,6 +13,7 @@ from flask import send_from_directory
 load_dotenv()
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'codebyefe.onrender.com'
 app.secret_key = os.getenv('SECRET_KEY', 'gizli_anahtar')
 
 # Flask-Mail Ayarları
@@ -146,7 +147,7 @@ def register():
             return redirect("/register")
 
         token = serializer.dumps(email, salt='email-confirm')
-        confirm_url = url_for('confirm_email', token=token, _external=True)
+        confirm_url = f"https://codebyefe.onrender.com/confirm/{token}"
         msg = Message("Email Confirmation", recipients=[email])
         msg.body = f"Hi {username}, click the link to activate your account: {confirm_url}"
 

@@ -136,7 +136,7 @@ def kullanicilari_kaydet(kullanicilar):
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    lang = request.args.get("lang")  # Bunu en üste koy
+    lang = request.args.get("lang", "tr")
 
     if request.method == "POST":
         username = request.form['username']
@@ -149,7 +149,7 @@ def register():
             return redirect("/register")
 
         token = serializer.dumps(email, salt='email-confirm')
-        confirm_url = f"https://codebyefe.onrender.com/confirm/{token}"
+        confirm_url = f"https://codebyefe.onrender.com/confirm/{token}?lang={'en' if lang == 'en' else 'tr'}"
         msg = Message("Email Confirmation", recipients=[email])
         msg.body = f"Hi {username}, click the link to activate your account: {confirm_url}"
 
@@ -169,19 +169,21 @@ def register():
 
 @app.route('/confirm/<token>')
 def confirm_email(token):
+    lang = request.args.get("lang", "tr")  # Dil parametresini al
+
     try:
         email = serializer.loads(token, salt='email-confirm', max_age=3600)
     except:
-        return "Token expired or invalid", 400
+        return ("Token expired or invalid", 400) if lang == "en" else ("Bağlantının süresi doldu veya geçersiz.", 400)
 
     kullanicilar = kullanicilari_yukle()
     for k in kullanicilar:
         if k['email'] == email:
             k['aktif'] = True
             kullanicilari_kaydet(kullanicilar)
-            flash("Email confirmed. You can now log in.")
-            return redirect("/login")
-    return "User not found", 404
+            flash("Email confirmed. You can now log in." if lang == "en" else "E-posta onaylandı. Artık giriş yapabilirsiniz.")
+            return redirect(f"/login?lang={lang}")
+    return ("User not found.", 404) if lang == "en" else ("Kullanıcı bulunamadı.", 404)@app.route('/confirm/<token>')
 
 @app.route('/google7dcd26d10df7aa08.html')
 def google_verification():

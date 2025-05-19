@@ -136,6 +136,8 @@ def kullanicilari_kaydet(kullanicilar):
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    lang = request.args.get("lang")  # Bunu en üste koy
+
     if request.method == "POST":
         username = request.form['username']
         email = request.form['email']
@@ -143,7 +145,7 @@ def register():
 
         kullanicilar = kullanicilari_yukle()
         if any(k['username'] == username for k in kullanicilar):
-            flash("Username already exists.")
+            flash("Username already exists." if lang == "en" else "Kullanıcı adı zaten mevcut.")
             return redirect("/register")
 
         token = serializer.dumps(email, salt='email-confirm')
@@ -161,8 +163,8 @@ def register():
         kullanicilar.append({"username": username, "email": email, "password": password, "aktif": False})
         kullanicilari_kaydet(kullanicilar)
         flash("Please check your email to activate your account." if lang == "en" else "Lütfen hesabınızı aktifleştirmek için e-postanızı kontrol edin.")
-        return redirect("/login")
-    lang = request.args.get("lang")
+        return redirect("/login?lang=en" if lang == "en" else "/login")
+
     return render_template("register_en.html" if lang == "en" else "register.html")
 
 @app.route('/confirm/<token>')

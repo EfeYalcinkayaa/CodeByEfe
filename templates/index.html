@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Anasayfa | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 800px; margin: 50px auto; text-align: center;">
+    <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">
+      👨‍💻 İsmail Efe Yalçınkaya
+    </h2>
+    <p style="font-size: 1.1rem; color: #ddd; margin-top: 10px; font-weight: 500;">
+      Yeditepe Üniversitesi Bilgisayar Mühendisliği 3. sınıf öğrencisiyim.  
+      Yazılım geliştirme, yapay zeka ve web teknolojilerine tutkuyla bağlıyım.  
+      Milli yüzücülük geçmişim ve disiplinli yaşam tarzımla, öğrenmeye ve üretmeye daima açığım.
+    </p>
+  </section>
+
+  <section class="grid-section">
+    <div class="info-card fadein">
+      <h3>📄 CV</h3>
+      <p>Özgeçmişimi buradan görüntüleyebilirsiniz.</p>
+      <a class="btn btn-primary" href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" target="_blank">
+  📄 CV’yi Görüntüle
+</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>🎓 Belgeler</h3>
+      <p>Belgelerimi buradan inceleyebilirsin.</p>
+      <a class="btn" href="/sertifikalar">Belgeleri Gör</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>💼 Hakkımda</h3>
+      <p>Ben kimim, hangi becerilere sahibim, neler yapıyorum?</p>
+      <a class="btn" href="/hakkimda">Hakkımda</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>🎯 Başarılarım</h3>
+      <p>Kazandığım ödüller, dereceler ve kişisel gelişim başarılarım.</p>
+      <a class="btn" href="/basarilar">Başarıları Gör</a>
+    </div>
+
+  </section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base_en.html" %}
+{% block title %}Register | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="max-width: 500px; margin: 50px auto;">
+  <h2>📝 Create an Account</h2>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Username" required class="form-input"><br>
+    <input type="email" name="email" placeholder="Email Address" required class="form-input"><br>
+    <input type="password" name="password" placeholder="Password" required class="form-input"><br>
+    <button type="submit" class="btn">Register</button>
+  </form>
+  <p style="margin-top: 20px; text-align: center;">
+    Already have an account?
+    <a href="/login?next=/forum_en" style="color: #00c3ff; text-decoration: underline;">Login</a>
+  </p>
+</section>
+{% endblock %}

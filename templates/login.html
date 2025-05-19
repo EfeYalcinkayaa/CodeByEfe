@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Giriş Yap | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="max-width: 500px; margin: 50px auto;">
+  <h2>🔐 Giriş Yap</h2>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Kullanıcı Adı" required class="form-input"><br>
+    <input type="password" name="password" placeholder="Şifre" required class="form-input"><br>
+    <button type="submit" class="btn">Giriş Yap</button>
+  </form>
+
+  <p style="margin-top: 20px; text-align: center;">
+    Hesabınız yok mu?
+    <a href="/register" style="color: #00c3ff; text-decoration: underline;">Buradan kayıt olun</a>
+  </p>
+  <p style="margin-top: 10px; text-align: center;">
+    Şifrenizi mi unuttunuz?
+    <a href="/reset" style="color: #ff6666; text-decoration: underline;">Şifremi Sıfırla</a>
+  </p>
+</section>
+{% endblock %}
+
+

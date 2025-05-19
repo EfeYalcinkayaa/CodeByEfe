@@ -1,0 +1,13 @@
+{% extends "base_en.html" %}
+{% block title %}New Password | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 500px; margin: 50px auto;">
+    <h2>🔒 Set a New Password</h2>
+    <p>Please enter your new password below:</p>
+    <form method="POST">
+      <input type="password" name="password" placeholder="New password" required class="form-input"><br>
+      <button type="submit" class="btn">Update Password</button>
+    </form>
+  </section>
+{% endblock %}

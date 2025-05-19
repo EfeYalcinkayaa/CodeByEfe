@@ -1,0 +1,59 @@
+{% extends "base_en.html" %}
+
+{% block title %}Forum | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+  <h2 style="text-align:center;">💬 Forum Page</h2>
+  <p style="text-align:center;">You can share your opinion and rating about the website.</p>
+
+  {% if yorum_sayisi > 0 %}
+    <div style="text-align:center; font-size: 18px; margin: 20px 0; color: #FFD700;">
+      🔢 Average Rating: <strong>{{ ortalama }}</strong> / 5 <br>
+      {% for _ in range(dolu_yildiz) %}
+        ⭐
+      {% endfor %}
+      {% for _ in range(bos_yildiz) %}
+        ☆
+      {% endfor %}
+      <br>
+      💬 Total Comments: {{ yorum_sayisi }}
+    </div>
+  {% endif %}
+
+  {% if username %}
+  <!-- Comment Form -->
+  <form action="/forum_en" method="POST" style="margin-top: 30px;">
+    <textarea name="yorum" placeholder="Your Comment..." required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;"></textarea>
+    <label for="puan">Rating:</label>
+    <select name="puan" required style="margin-left: 10px; padding: 5px;">
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+      <option value="2">⭐⭐</option>
+      <option value="1">⭐</option>
+    </select>
+    <br><br>
+    <button type="submit" class="btn">Submit</button>
+  </form>
+  {% else %}
+    <p style="text-align: center; margin-top: 20px; color: #ff9999;">
+      ⚠️ You must <a href="/login" style="color: #00c3ff; text-decoration: underline;">log in</a> to post a comment.
+    </p>
+  {% endif %}
+
+  <!-- Comments -->
+  <div style="margin-top: 40px;">
+    <h3>📝 Comments:</h3>
+    {% for y in yorumlar %}
+      <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(255,255,255,0.05); border-radius: 8px;">
+        <strong>{{ y.isim }}</strong> – {{ y.puan }} ⭐ <br>
+        <small>{{ y.tarih }}</small><br>
+        {{ y.yazi }}
+      </div>
+    {% else %}
+      <p>No comments yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

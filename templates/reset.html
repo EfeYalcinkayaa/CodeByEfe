@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Şifre Sıfırlama | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 500px; margin: 50px auto;">
+    <h2>🔑 Şifreni mi unuttun?</h2>
+    <p>Kayıtlı e-posta adresini gir, sana sıfırlama bağlantısı gönderelim.</p>
+    <form method="POST">
+      <input type="email" name="email" placeholder="E-posta adresin" required class="form-input"><br>
+      <button type="submit" class="btn">Sıfırlama Bağlantısı Gönder</button>
+    </form>
+  </section>
+{% endblock %}
+
+

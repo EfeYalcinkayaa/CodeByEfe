@@ -1,0 +1,34 @@
+{% extends "base_en.html" %}
+{% block title %}Leaderboard | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="max-width: 600px; margin: 60px auto; text-align:center;">
+  <h2>🏆 Leaderboard</h2>
+  {% if skorlar %}
+    <table style="width:100%; border-collapse: collapse; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th style="border-bottom: 2px solid #ccc; padding: 10px;">#</th>
+          <th style="border-bottom: 2px solid #ccc; padding: 10px;">Username</th>
+          <th style="border-bottom: 2px solid #ccc; padding: 10px;">Score</th>
+          <th style="border-bottom: 2px solid #ccc; padding: 10px;">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in skorlar %}
+        <tr>
+          <td style="padding: 8px;">
+            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}{{ loop.index }}{% endif %}
+          </td>
+          <td style="padding: 8px;">{{ s.username }}</td>
+          <td style="padding: 8px;">{{ s.score }}</td>
+          <td style="padding: 8px;">{{ s.timestamp[:16]|replace("T", " ") if s.timestamp else "-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No scores recorded yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

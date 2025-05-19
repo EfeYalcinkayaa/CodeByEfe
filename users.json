@@ -1,0 +1,32 @@
+[
+  {
+    "username": "efeyalcinkayaa",
+    "email": "efeyalcinkaya@icloud.com",
+    "password": "pbkdf2:sha256:1000000$xLxeTPgfGDxKgPbn$a270631243979349fd1bfc8ee6befb7b5a06a7ba0932f7bf3290bc5447915e68",
+    "aktif": true
+  },
+  {
+    "username": "İpekYalcinkayaa",
+    "email": "ipekkyalcinkayaa@outlook.com",
+    "password": "pbkdf2:sha256:1000000$D44a8pobFOgx2yyB$caaf1acbfb3acf8c53923b07fe61595d8c5f2bad56efc4bf12e0ba59a1814f3d",
+    "aktif": false
+  },
+  {
+    "username": "BerkemBakal",
+    "email": "berkembakal@hotmail.com",
+    "password": "pbkdf2:sha256:1000000$xbyEAVRWKnf87kE5$9b24b4d8ecd45cd0a4aeb3a6000691a8ff1a10a1743148fabd8e002d5c21f40e",
+    "aktif": false
+  },
+  {
+    "username": "betulkarakanatt",
+    "email": "bkarakanat000@gmail.com",
+    "password": "pbkdf2:sha256:1000000$dVeCX2XEJJvd14u9$fb7257931be4549c24946170bbb024c64a941409aa4847119e9bbc84978060a2",
+    "aktif": false
+  },
+  {
+    "username": "efkanyalcinkayaa",
+    "email": "efkan-yalcin@hotmail.com",
+    "password": "pbkdf2:sha256:1000000$EzUzp6J3SBQVfoQk$831926298deb4119737d37b76c56300882eab7c640db82f13086bd5488cfe19e",
+    "aktif": false
+  }
+]

@@ -1,0 +1,13 @@
+{% extends "base_en.html" %}
+{% block title %}Reset Password | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 500px; margin: 50px auto;">
+    <h2>🔑 Forgot Your Password?</h2>
+    <p>Enter your registered email address below. We’ll send you a reset link.</p>
+    <form method="POST">
+      <input type="email" name="email" placeholder="Your email" required class="form-input"><br>
+      <button type="submit" class="btn">Send Reset Link</button>
+    </form>
+  </section>
+{% endblock %}

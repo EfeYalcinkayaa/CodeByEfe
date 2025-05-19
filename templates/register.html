@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Kayıt Ol | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="max-width: 500px; margin: 50px auto;">
+  <h2>📝 Hesap Oluştur</h2>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Kullanıcı Adı" required class="form-input"><br>
+    <input type="email" name="email" placeholder="E-posta Adresi" required class="form-input"><br>
+    <input type="password" name="password" placeholder="Şifre" required class="form-input"><br>
+    <button type="submit" class="btn">Kayıt Ol</button>
+  </form>
+  <p style="margin-top: 20px; text-align: center;">
+    Zaten bir hesabınız var mı?
+    <a href="/login" style="color: #00c3ff; text-decoration: underline;">Giriş Yap</a>
+  </p>
+</section>
+{% endblock %}

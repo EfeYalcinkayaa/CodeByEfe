@@ -1,0 +1,292 @@
+{% extends "base_en.html" %}
+{% block title %}Memory Card Game | CodeByEfe{% endblock %}
+
+{% block content %}
+<style>
+  .gold { color: gold; font-weight: bold; }
+  .silver { color: silver; font-weight: bold; }
+  .bronze { color: #cd7f32; font-weight: bold; }
+  .normal { color: #aadfff; }
+
+  .grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background-color: #f0f0f0;
+    font-size: 2rem;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    user-select: none;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .card.matched {
+    background-color: #90ee90;
+    pointer-events: none;
+  }
+
+  .card.highlight {
+    box-shadow: 0 0 12px 4px gold;
+    transform: scale(1.1);
+    transition: all 0.5s ease;
+  }
+
+  .card.flipped {
+    background-color: #ffffff;
+  }
+
+  #retryContainer {
+    display: none;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  #retryBtn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(255, 77, 77, 0.6);
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+
+  #retryBtn:hover {
+    background-color: #e60000;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<section style="max-width: 800px; margin: 40px auto; text-align: center;">
+
+  <div style="background-color: #ffc107; color: #212529; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">
+    ⚠️ Attention: <u>Your score will <strong>not be saved</strong></u> or listed on the scoreboard unless you are <strong>logged in</strong>.
+  </div>
+
+  <h2>🧠 Memory Card Game</h2>
+  <p>Find the matching cards! Each level gets harder.</p>
+
+  <button id="startBtn" class="btn">▶ Start</button>
+
+  <div id="retryContainer">
+    <button id="retryBtn">🔄 Try Again</button>
+  </div>
+
+  <div id="game-stats" style="display: none;">
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div><strong>❗ Attempts Left:</strong> <span id="attemptsLeft">2</span></div>
+      <div><strong>🔢 Level:</strong> <span id="currentLevel">1</span></div>
+      <div><strong>⏱ Time:</strong> <span id="elapsedTime">0</span> sec</div>
+    </div>
+    <div id="game-board" class="grid"></div>
+    <p id="status"></p>
+  </div>
+
+  <div id="scoreboardSection" style="margin-top: 40px;">
+    <h3>🏆 Scoreboard</h3>
+    <ul id="scoreboard" style="list-style: none; padding: 0;">
+      {% for s in skorlar %}
+        {% if loop.index == 1 %}
+          <li class="gold">{{ s.username }} — Level {{ s.score }}</li>
+        {% elif loop.index == 2 %}
+          <li class="silver">{{ s.username }} — Level {{ s.score }}</li>
+        {% elif loop.index == 3 %}
+          <li class="bronze">{{ s.username }} — Level {{ s.score }}</li>
+        {% else %}
+          <li class="normal">{{ s.username }} — Level {{ s.score }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <form id="scoreForm" method="POST" action="/submit_score">
+    <input type="hidden" name="score" id="scoreInput">
+  </form>
+
+  <script>
+    let startTime, intervalId;
+
+    function startTimer() {
+      startTime = Date.now();
+      intervalId = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        document.getElementById("elapsedTime").innerText = elapsed;
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(intervalId);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = "{{ username|default('Guest') }}";
+      let currentLevel = 1;
+      let wrongAttempts = 0;
+      let maxWrong = 2;
+      let matched = 0;
+      let first = null;
+
+      const startBtn = document.getElementById("startBtn");
+      const retryBtn = document.getElementById("retryBtn");
+      const retryContainer = document.getElementById("retryContainer");
+
+      const symbols = ["🍎", "🍌", "🍒", "🍇", "🍉", "🍍", "🥝", "🥥", "🍋", "🍑", "🍓", "🍈"];
+
+      function shuffle(array) {
+        return array.sort(() => 0.5 - Math.random());
+      }
+
+      function generateCards(level) {
+        const count = Math.max(6, 4 + level * 2);
+        const selected = shuffle(symbols).slice(0, count / 2);
+        return shuffle([...selected, ...selected]);
+      }
+
+      function renderBoard(level) {
+        document.getElementById("currentLevel").innerText = level;
+        document.getElementById("attemptsLeft").innerText = maxWrong - wrongAttempts;
+        const board = document.getElementById("game-board");
+        board.innerHTML = "";
+
+        const cards = generateCards(level);
+        const total = cards.length;
+        const cols = Math.ceil(Math.sqrt(total));
+
+        board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        matched = 0;
+        first = null;
+
+        cards.forEach(symbol => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.dataset.symbol = symbol;
+          card.innerHTML = symbol;
+          board.appendChild(card);
+        });
+
+        showCardsForTime(level);
+        startTimer();
+      }
+
+      function showCardsForTime(level) {
+        const time = 2 + level * 0.5;
+        const cards = document.querySelectorAll(".card");
+        cards.forEach(c => c.classList.add("flipped", "highlight"));
+
+        setTimeout(() => {
+          cards.forEach(c => c.classList.remove("highlight"));
+        }, (time - 1) * 1000);
+
+        setTimeout(() => {
+          cards.forEach(c => {
+            c.classList.remove("flipped");
+            c.innerHTML = "❓";
+          });
+          enableCardClicking();
+        }, time * 1000);
+      }
+
+      function enableCardClicking() {
+        document.querySelectorAll(".card").forEach(card => {
+          card.addEventListener("click", handleCardClick);
+        });
+      }
+
+      function handleCardClick(e) {
+        const card = e.target;
+        if (card.classList.contains("matched") || card.innerHTML !== "❓") return;
+
+        card.innerHTML = card.dataset.symbol;
+
+        if (!first) {
+          first = card;
+        } else {
+          if (first.dataset.symbol === card.dataset.symbol) {
+            first.classList.add("matched");
+            card.classList.add("matched");
+            matched++;
+            first = null;
+
+            if (matched === document.querySelectorAll(".card").length / 2) {
+              document.getElementById("status").innerText = "✔ Level completed! Increasing difficulty...";
+              setTimeout(() => {
+                currentLevel++;
+                maxWrong = 2 + Math.floor(currentLevel / 2);
+                wrongAttempts = 0;
+                renderBoard(currentLevel);
+              }, 1500);
+            }
+          } else {
+            wrongAttempts++;
+            document.getElementById("attemptsLeft").innerText = maxWrong - wrongAttempts;
+            setTimeout(() => {
+              first.innerHTML = "❓";
+              card.innerHTML = "❓";
+              first = null;
+            }, 800);
+
+            if (wrongAttempts >= maxWrong) {
+              document.getElementById("status").innerText = "❌ Too many mistakes. Game over.";
+              stopTimer();
+              document.getElementById("game-board").innerHTML = "";
+
+              if (username !== "Guest") {
+                fetch("/submit_score", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                  body: `score=${currentLevel - 1}`
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.success && data.newHighScore) {
+                    const msg = document.createElement("div");
+                    msg.innerHTML = "🎉 <strong>Congratulations!</strong> New high score!";
+                    msg.style.backgroundColor = "#00c3ff";
+                    msg.style.color = "white";
+                    msg.style.padding = "16px";
+                    msg.style.marginTop = "30px";
+                    msg.style.fontSize = "1.3rem";
+                    msg.style.borderRadius = "10px";
+                    msg.style.boxShadow = "0 0 12px rgba(0,195,255,0.6)";
+                    msg.style.animation = "fadeIn 1s ease";
+                    document.getElementById("retryContainer").prepend(msg);
+                  }
+                });
+              }
+
+              retryContainer.style.display = "block";
+              retryBtn.scrollIntoView({ behavior: "smooth" });
+            }
+          }
+        }
+      }
+
+      function startGame() {
+        startBtn.style.display = "none";
+        retryContainer.style.display = "none";
+        document.getElementById("game-stats").style.display = "block";
+        document.getElementById("status").innerText = "";
+        currentLevel = 1;
+        wrongAttempts = 0;
+        maxWrong = 2;
+        renderBoard(currentLevel);
+      }
+
+      startBtn.addEventListener("click", startGame);
+      retryBtn.addEventListener("click", startGame);
+    });
+  </script>
+</section>
+{% endblock %}

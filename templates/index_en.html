@@ -1,0 +1,46 @@
+{% extends "base_en.html" %}
+
+{% block title %}Home | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 800px; margin: 50px auto; text-align: center;">
+    <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">
+      👨‍💻 Ismail Efe Yalcinkaya
+    </h2>
+    <p style="font-size: 1.1rem; color: #ddd; margin-top: 10px; font-weight: 500;">
+      I am a 3rd-year Computer Engineering student at Yeditepe University.  
+      I am passionately interested in software development, artificial intelligence, and web technologies.  
+      With a background as a national swimmer and a disciplined lifestyle, I am always eager to learn and create.
+    </p>
+  </section>
+
+
+  <section class="grid-section">
+    <div class="info-card fadein">
+      <h3>📄 Resume</h3>
+      <p>You can view my CV from here.</p>
+      <a class="btn btn-primary" href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv_en.pdf') }}" target="_blank">
+  📄 View CV
+</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>🎓 Documents</h3>
+      <p>You can view my documents here.</p>
+      <a class="btn" href="/sertifikalar_en">View Documents</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>💼 About Me</h3>
+      <p>Who am I, what skills do I have, and what am I working on?</p>
+      <a class="btn" href="/hakkimda_en">Learn More</a>
+    </div>
+
+    <div class="info-card fadein">
+      <h3>🎯 Achievements</h3>
+      <p>Check out achievements here.</p>
+      <a class="btn" href="/achievements">View Achievements</a>
+    </div>
+
+  </section>
+{% endblock %}

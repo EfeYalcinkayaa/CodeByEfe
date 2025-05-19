@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="title" content="CodeByEfe - Software Developer">
+  <meta name="description" content="CodeByEfe is a personal portfolio website showcasing software development projects, mini games, resume, and certifications.">
+
+  <title>CodeByEfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+</head>
+
+<body id="body">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/en">Home</a>
+      <div class="dropdown">
+        <a class="dropbtn">Contact ▾</a>
+        <div class="dropdown-content">
+          <a href="mailto:efeyalcinkaya@icloud.com">Send Email</a>
+          <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
+          <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <a href="/minigame_en" class="nav-game-link animate-game-btn">🎮 Play Mini Game</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="/forum" class="forum-link">💬 Forum</a>
+      {% if session.username %}
+        <span style="margin-right: 10px;">👤 {{ session.username }}</span>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login">Login</a>
+      {% endif %}
+      <a href="/" class="lang-btn">🇹🇷 Türkçe</a>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1 class="glow-text">CodeByEfe</h1>
+    <p>Software Developer</p>
+  </header>
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for message in messages %}
+          <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- MAIN CONTENT -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Ismail Efe Yalcinkaya
+  </footer>
+
+  <!-- THEME SCRIPT -->
+  <script>
+    window.onload = function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.getElementById("body").classList.add("dark-mode");
+      }
+    };
+
+    function toggleTheme() {
+      const body = document.getElementById("body");
+      body.classList.toggle("dark-mode");
+      if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    }
+  </script>
+
+  <!-- GSAP ANIMATION -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray(".grid-section .info-card:nth-child(n+3)").forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        });
+    });
+  </script>
+</body>
+</html>

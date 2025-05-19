@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Yeni Şifre | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 500px; margin: 50px auto;">
+    <h2>🔒 Yeni Şifreni Belirle</h2>
+    <p>Lütfen yeni şifreni gir:</p>
+    <form method="POST">
+      <input type="password" name="password" placeholder="Yeni şifre" required class="form-input"><br>
+      <button type="submit" class="btn">Şifreyi Güncelle</button>
+    </form>
+  </section>
+{% endblock %}
+
+

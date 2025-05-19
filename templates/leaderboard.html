@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Skor Tablosu | CodeByEfe{% endblock %}
+
+{% block content %}
+<section style="max-width: 700px; margin: 60px auto; text-align:center;">
+  <h2>🏆 Skor Tablosu</h2>
+  {% if skorlar %}
+    <table style="width:100%; border-collapse: collapse; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th style="padding: 10px;">#</th>
+          <th style="padding: 10px;">Kullanıcı</th>
+          <th style="padding: 10px;">Skor</th>
+          <th style="padding: 10px;">Tarih</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in skorlar %}
+        <tr>
+          <td style="padding: 8px;">
+            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}{{ loop.index }}{% endif %}
+          </td>
+          <td style="padding: 8px;">{{ s.username }}</td>
+          <td style="padding: 8px;">{{ s.score }}</td>
+          <td style="padding: 8px;">{{ s.timestamp[:10] if s.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Henüz skor kaydı yok.</p>
+  {% endif %}
+</section>
+{% endblock %}

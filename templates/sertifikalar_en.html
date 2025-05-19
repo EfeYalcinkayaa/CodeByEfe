@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Certificates | CodeByEfe{% endblock %}
+
+{% block content %}
+  <section style="max-width: 900px; margin: 40px auto; text-align: center;">
+    <h2 style="font-size: 2rem; font-weight: bold; color: #00c3ff;">🏅 National Athlete Certificate</h2>
+    <img src="{{ url_for('static', filename='certificates/milli_sporcu_belgesi.jpg') }}" 
+         alt="National Athlete Certificate" 
+         style="max-width: 100%; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 0 20px rgba(0,0,0,0.3);" />
+  </section>
+{% endblock %}
+

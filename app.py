@@ -224,13 +224,11 @@ def reset_token(token):
                 flash("Your password has been updated. You can now log in." if lang else "Şifreniz güncellendi. Artık giriş yapabilirsiniz.")
                 return redirect("/login")
         return ("User not found.", 404) if lang else ("Kullanıcı bulunamadı.", 404)
-
-    return render_template("reset_token_en.html" if lang else "reset_token.html")
-
+    
 @app.route("/login", methods=["GET", "POST"])
 def login():
     next_url = request.args.get("next")
-    lang = "en" if next_url and "_en" in next_url else "tr"
+    lang = request.args.get("lang", "tr")
 
     if request.method == "POST":
         username = request.form['username']
@@ -242,12 +240,13 @@ def login():
         if user:
             if not user.get('aktif'):
                 flash("Please confirm your email first." if lang == "en" else "Lütfen önce e-postanızı onaylayın.")
-                return redirect(url_for('login', next=next_url))
+                return redirect(url_for('login', next=next_url, lang=lang))
             if check_password_hash(user['password'], password):
                 session['username'] = username
                 flash("Login successful." if lang == "en" else "Giriş başarılı.")
                 return redirect(next_url or ("/en" if lang == "en" else "/"))
         flash("Invalid credentials." if lang == "en" else "Geçersiz kullanıcı adı veya şifre.")
+        return redirect(url_for('login', lang=lang))
 
     return render_template("login_en.html" if lang == "en" else "login.html")
 

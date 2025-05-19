@@ -43,7 +43,7 @@
         <span style="margin-right: 10px;">👤 {{ session.username }}</span>
         <a href="/logout">{{ 'Logout' if lang == 'en' else 'Çıkış Yap' }}</a>
       {% else %}
-        <a href="/login">{{ 'Login' if lang == 'en' else 'Giriş Yap' }}</a>
+        <a href="/login?lang={{ lang }}">{{ 'Login' if lang == 'en' else 'Giriş Yap' }}</a>
       {% endif %}
       {% if lang == 'en' %}
         <a href="/" class="lang-btn">🇹🇷 Türkçe</a>

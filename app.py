@@ -208,11 +208,16 @@ def reset_password():
 
 @app.route('/reset/<token>', methods=["GET", "POST"])
 def reset_token(token):
-    lang = request.args.get("lang") == "en"
+    lang_param = request.args.get("lang")
+    lang = lang_param == "en"
+    
     try:
         email = serializer.loads(token, salt='reset-password', max_age=3600)
     except:
-        return ("Reset token is invalid or has expired.", 400) if lang else ("Sıfırlama bağlantısı geçersiz veya süresi dolmuş.", 400)
+        return (
+            "Reset token is invalid or has expired.", 400
+            if lang else "Sıfırlama bağlantısı geçersiz veya süresi dolmuş.", 400
+        )
 
     if request.method == "POST":
         new_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
@@ -222,8 +227,11 @@ def reset_token(token):
                 k['password'] = new_password
                 kullanicilari_kaydet(kullanicilar)
                 flash("Your password has been updated. You can now log in." if lang else "Şifreniz güncellendi. Artık giriş yapabilirsiniz.")
-                return redirect("/login")
+                return redirect("/login?lang=en" if lang else "/login")
         return ("User not found.", 404) if lang else ("Kullanıcı bulunamadı.", 404)
+
+    return render_template("reset_token_en.html" if lang else "reset_token.html")
+
     
 @app.route("/login", methods=["GET", "POST"])
 def login():

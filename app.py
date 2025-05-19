@@ -160,7 +160,7 @@ def register():
 
         kullanicilar.append({"username": username, "email": email, "password": password, "aktif": False})
         kullanicilari_kaydet(kullanicilar)
-        flash("Please check your email to activate your account.")
+        flash("Please check your email to activate your account." if lang == "en" else "Lütfen hesabınızı aktifleştirmek için e-postanızı kontrol edin.")
         return redirect("/login")
     lang = request.args.get("lang")
     return render_template("register_en.html" if lang == "en" else "register.html")

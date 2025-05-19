@@ -180,6 +180,10 @@ def confirm_email(token):
             return redirect("/login")
     return "User not found", 404
 
+@app.route('/google7dcd26d10df7aa08.html')
+def google_verification():
+    return "google-site-verification: google7dcd26d10df7aa08.html"
+
 @app.route("/reset", methods=["GET", "POST"])
 def reset_password():
     lang = request.args.get("lang") == "en"

@@ -36,6 +36,54 @@ def index():
 def english_index():
     return render_template("index_en.html")
 
+@app.route("/hakkimda")
+def hakkimda():
+    return render_template("hakkimda.html")
+
+@app.route("/hakkimda_en")
+def hakkimda_en():
+    return render_template("hakkimda_en.html")
+
+@app.route("/sertifikalar")
+def sertifikalar():
+    return render_template("sertifikalar.html")
+
+@app.route("/sertifikalar_en")
+def sertifikalar_en():
+    return render_template("sertifikalar_en.html")
+
+@app.route("/basarilar")
+def basarilar():
+    return render_template("basarilar.html")
+
+@app.route("/achievements")
+def achievements_en():
+    return render_template("achievements_en.html")
+
+@app.route("/minigame")
+def minigame():
+    return render_template("minigame.html", username=session.get("username"))
+
+@app.route("/minigame_en")
+def minigame_en():
+    return render_template("minigame_en.html", username=session.get("username"))
+
+@app.route("/cv")
+def cv():
+    return render_template("cv.html")
+
+@app.route("/cv_en")
+def cv_en():
+    return render_template("cv_en.html")
+
+@app.route('/download_cv')
+def download_cv():
+    return send_from_directory('static/cv', 'ismail_efe_yalcinkaya_cv.pdf', as_attachment=True)
+
+@app.route('/download_cv_en')
+def download_cv_en():
+    return send_from_directory('static/cv', 'ismail_efe_yalcinkaya_cv_en.pdf', as_attachment=True)
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     lang = request.args.get("lang")
@@ -185,7 +233,7 @@ def admin_panel():
 
 @app.route("/delete_user/<int:user_id>")
 def delete_user(user_id):
-    if session.get("username") != "admin":
+    if session.get("username") != "efeyalcinkayaa":
         return "Yetkisiz erişim", 403
     user = User.query.get(user_id)
     if user:
@@ -196,7 +244,7 @@ def delete_user(user_id):
 
 @app.route("/delete_score/<int:score_id>")
 def delete_score(score_id):
-    if session.get("username") != "admin":
+    if session.get("username") != "efeyalcinkayaa":
         return "Yetkisiz erişim", 403
     score = Score.query.get(score_id)
     if score:
@@ -207,7 +255,7 @@ def delete_score(score_id):
 
 @app.route("/delete_comment/<int:comment_id>")
 def delete_comment(comment_id):
-    if session.get("username") != "admin":
+    if session.get("username") != "efeyalcinkayaa":
         return "Yetkisiz erişim", 403
     comment = Comment.query.get(comment_id)
     if comment:

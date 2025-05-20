@@ -28,19 +28,7 @@
 
   <div id="scoreboardSection" style="margin-top: 40px;">
     <h3>🏆 Skor Tablosu</h3>
-    <ul id="scoreboard" style="list-style: none; padding: 0;">
-      {% for s in skorlar %}
-        {% if loop.index == 1 %}
-          <li class="gold">{{ s.username }} — {{ s.score }}. Seviye</li>
-        {% elif loop.index == 2 %}
-          <li class="silver">{{ s.username }} — {{ s.score }}. Seviye</li>
-        {% elif loop.index == 3 %}
-          <li class="bronze">{{ s.username }} — {{ s.score }}. Seviye</li>
-        {% else %}
-          <li class="normal">{{ s.username }} — {{ s.score }}. Seviye</li>
-        {% endif %}
-      {% endfor %}
-    </ul>
+    <ul id="scoreboard" style="list-style: none; padding: 0;"></ul>
   </div>
 </section>
 
@@ -120,7 +108,28 @@
     clearInterval(intervalId);
   }
 
+  function loadScoreboard() {
+    fetch("/api/scoreboard")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("scoreboard");
+        list.innerHTML = "";
+        data.forEach((item, index) => {
+          const li = document.createElement("li");
+          let cls = "normal";
+          if (index === 0) cls = "gold";
+          else if (index === 1) cls = "silver";
+          else if (index === 2) cls = "bronze";
+          li.className = cls;
+          li.innerText = `${item.username} — ${item.score}. Seviye`;
+          list.appendChild(li);
+        });
+      });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
+    loadScoreboard();
+
     const username = "{{ username|default('Misafir') }}";
     let currentLevel = 1;
     let wrongAttempts = 0;
@@ -253,6 +262,7 @@
                   msg.style.animation = "fadeIn 1s ease";
                   document.getElementById("retryContainer").prepend(msg);
                 }
+                loadScoreboard();
               });
             }
 

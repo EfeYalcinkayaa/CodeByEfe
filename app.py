@@ -197,23 +197,23 @@ def submit_score():
     if 'username' not in session:
         return jsonify(success=False, message="Unauthorized"), 401
 
-    data = request.get_json()
-    score_val = int(data.get("score", 0))
     username = session['username']
+    score_val = int(request.json.get("score", 0))  # <--- DİKKAT BURAYA
+
     existing = Score.query.filter_by(username=username).first()
     newHighScore = False
 
     if existing:
         if score_val > existing.score:
             existing.score = score_val
-            existing.timestamp = datetime.utcnow()
+            existing.timestamp = datetime.utcnow().isoformat()
             db.session.commit()
             newHighScore = True
     else:
         db.session.add(Score(
             username=username,
             score=score_val,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow().isoformat()
         ))
         db.session.commit()
         newHighScore = True
@@ -229,6 +229,11 @@ def leaderboard():
 def leaderboard_en():
     skorlar = Score.query.order_by(Score.score.desc()).all()
     return render_template("leaderboard_en.html", skorlar=skorlar)
+
+@app.route("/leaderboard_data")
+def leaderboard_data():
+    skorlar = Score.query.order_by(Score.score.desc()).limit(30).all()
+    return jsonify([{"username": s.username, "score": s.score} for s in skorlar])
 
 @app.route("/forum", methods=["GET", "POST"])
 def forum():

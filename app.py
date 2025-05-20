@@ -176,7 +176,7 @@ def forum_en():
 
 @app.route("/admin")
 def admin_panel():
-    if session.get("username") != "admin":
+    if session.get("username") != "efeyalcinkayaa":
         return "Yetkisiz erişim", 403
     users = User.query.all()
     scores = Score.query.order_by(Score.score.desc()).all()

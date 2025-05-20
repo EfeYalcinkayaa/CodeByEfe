@@ -148,6 +148,50 @@ def logout():
     flash("Logged out.")
     return redirect(request.referrer or "/")
 
+@app.route("/reset", methods=["GET", "POST"])
+def reset_password():
+    lang = request.args.get("lang", "tr")
+    is_en = lang == "en"
+
+    if request.method == "POST":
+        email = request.form['email']
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = serializer.dumps(email, salt='reset-password')
+            reset_url = url_for('reset_token', token=token, _external=True)
+            msg = Message("Password Reset", recipients=[email])
+            msg.body = f"Hi, click the link to reset your password:\n{reset_url}" if is_en else f"Merhaba, şifrenizi sıfırlamak için bağlantıya tıklayın:\n{reset_url}"
+            mail.send(msg)
+            flash("A password reset link has been sent to your email." if is_en else "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.")
+        else:
+            flash("No account found with this email." if is_en else "Bu e-posta ile kayıtlı hesap bulunamadı.")
+        return redirect("/login?lang=en" if is_en else "/login")
+
+    return render_template("reset_en.html" if is_en else "reset.html")
+
+
+@app.route("/reset/<token>", methods=["GET", "POST"])
+def reset_token(token):
+    lang = request.args.get("lang", "tr")
+    is_en = lang == "en"
+
+    try:
+        email = serializer.loads(token, salt='reset-password', max_age=3600)
+    except:
+        return ("Reset link is invalid or has expired.", 400) if is_en else ("Bağlantı geçersiz veya süresi dolmuş.", 400)
+
+    if request.method == "POST":
+        user = User.query.filter_by(email=email).first()
+        if user:
+            new_password = generate_password_hash(request.form['password'])
+            user.password = new_password
+            db.session.commit()
+            flash("Your password has been updated." if is_en else "Şifreniz güncellendi.")
+            return redirect("/login?lang=en" if is_en else "/login")
+        return ("User not found.", 404) if is_en else ("Kullanıcı bulunamadı.", 404)
+
+    return render_template("reset_token_en.html" if is_en else "reset_token.html")
+
 @app.route("/submit_score", methods=["POST"])
 def submit_score():
     if 'username' not in session:

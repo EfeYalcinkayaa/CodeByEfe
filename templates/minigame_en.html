@@ -4,7 +4,7 @@
 {% block content %}
 <section style="max-width: 800px; margin: 40px auto; text-align: center;">
   <div style="background-color: #ffc107; color: #212529; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">
-    ⚠️ Attention: <u>Your score will <strong>not be saved</strong></u> or shown on the scoreboard unless you are <strong>logged in</strong>.
+    ⚠️ Attention: <u>Your score will <strong>not be saved</strong></u> or appear on the scoreboard unless you are <strong>logged in</strong>.
   </div>
 
   <h2>🧠 Memory Card Game</h2>
@@ -13,7 +13,7 @@
   <button id="startBtn" class="btn">▶ Start</button>
 
   <div id="retryContainer" style="display: none; margin-top: 40px;">
-    <button id="retryBtn">🔄 Try Again</button>
+    <button id="retryBtn">🔄 Play Again</button>
   </div>
 
   <div id="game-stats" style="display: none;">
@@ -94,20 +94,6 @@
 </style>
 
 <script>
-  let startTime, intervalId;
-
-  function startTimer() {
-    startTime = Date.now();
-    intervalId = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      document.getElementById("elapsedTime").innerText = elapsed;
-    }, 1000);
-  }
-
-  function stopTimer() {
-    clearInterval(intervalId);
-  }
-
   function loadScoreboard() {
     fetch("/api/scoreboard")
       .then(res => res.json())
@@ -219,7 +205,7 @@
           first = null;
 
           if (matched === document.querySelectorAll(".card").length / 2) {
-            document.getElementById("status").innerText = "✔ Level completed! Increasing difficulty...";
+            document.getElementById("status").innerText = "✔ Level complete! Increasing difficulty...";
             setTimeout(() => {
               currentLevel++;
               maxWrong = 2 + Math.floor(currentLevel / 2);

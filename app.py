@@ -235,6 +235,23 @@ def leaderboard_data():
     skorlar = Score.query.order_by(Score.score.desc()).limit(30).all()
     return jsonify([{"username": s.username, "score": s.score} for s in skorlar])
 
+@app.route("/api/scoreboard")
+def api_scoreboard():
+    # Her kullanıcıdan en yüksek skorunu al
+    subq = db.session.query(
+        Score.username,
+        db.func.max(Score.score).label("score")
+    ).group_by(Score.username).subquery()
+
+    scores = db.session.query(Score).join(
+        subq, (Score.username == subq.c.username) & (Score.score == subq.c.score)
+    ).order_by(Score.score.desc()).all()
+
+    return jsonify([
+        {"username": s.username, "score": s.score}
+        for s in scores
+    ])
+
 @app.route("/forum", methods=["GET", "POST"])
 def forum():
     if request.method == "POST":

@@ -196,20 +196,27 @@ def reset_token(token):
 def submit_score():
     if 'username' not in session:
         return jsonify(success=False, message="Unauthorized"), 401
+
     username = session['username']
     score_val = int(request.form.get("score", 0))
     existing = Score.query.filter_by(username=username).first()
     newHighScore = False
+
     if existing:
         if score_val > existing.score:
             existing.score = score_val
-            existing.timestamp = datetime.utcnow()
+            existing.timestamp = datetime.utcnow().isoformat()
             db.session.commit()
             newHighScore = True
     else:
-        db.session.add(Score(username=username, score=score_val))
+        db.session.add(Score(
+            username=username,
+            score=score_val,
+            timestamp=datetime.utcnow().isoformat()
+        ))
         db.session.commit()
         newHighScore = True
+
     return jsonify(success=True, newHighScore=newHighScore)
 
 @app.route("/leaderboard")

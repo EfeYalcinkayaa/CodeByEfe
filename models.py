@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -17,9 +18,10 @@ class Score(db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isim = db.Column(db.String(100), nullable=False)
-    yazi = db.Column(db.Text, nullable=False)
-    puan = db.Column(db.Integer, nullable=False)
-    tarih = db.Column(db.String(100), nullable=True)
+    username = db.Column(db.String(100), nullable=False)  # "isim" yerine
+    text = db.Column(db.Text, nullable=False)             # "yazi" yerine
+    rating = db.Column(db.Integer, nullable=False)        # "puan" yerine
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)  # "tarih" yerine
+
 
 

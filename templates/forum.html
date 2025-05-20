@@ -10,22 +10,19 @@
   {% if yorum_sayisi > 0 %}
     <div style="text-align:center; font-size: 18px; margin: 20px 0; color: #FFD700;">
       🔢 Ortalama Puan: <strong>{{ ortalama }}</strong> / 5 <br>
-      {% for _ in range(dolu_yildiz) %}
-        ⭐
-      {% endfor %}
-      {% for _ in range(bos_yildiz) %}
-        ☆
-      {% endfor %}
+      {% for _ in range(dolu_yildiz) %}⭐{% endfor %}
+      {% for _ in range(bos_yildiz) %}☆{% endfor %}
       <br>
       💬 Toplam Yorum: {{ yorum_sayisi }}
     </div>
   {% endif %}
 
   {% if username %}
-    <!-- GİRİŞ YAPILDIYSA YORUM FORMU -->
     <form action="/forum" method="POST" style="margin-top: 30px;">
-      <input type="text" name="isim" value="{{ username }}" readonly style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
-      <textarea name="yorum" placeholder="Yorumunuz..." required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;"></textarea>
+      <input type="text" name="username" value="{{ username }}" readonly
+             style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
+      <textarea name="yorum" placeholder="Yorumunuz..." required
+                style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;"></textarea>
       <label for="puan">Puan:</label>
       <select name="puan" required style="margin-left: 10px; padding: 5px;">
         <option value="5">⭐⭐⭐⭐⭐</option>
@@ -35,24 +32,22 @@
         <option value="1">⭐</option>
       </select>
       <br><br>
-      <button type="submit" class="btn">Gönder</button>
+      <button type="submit" class="btn btn-primary">Gönder</button>
     </form>
   {% else %}
-    <!-- GİRİŞ YAPILMAMIŞSA BİLGİ -->
     <p style="text-align: center; margin-top: 30px; color: red;">
       Yorum yapabilmek için <a href="/login" style="color: #00c3ff;">giriş yapın</a>.
     </p>
   {% endif %}
 
-  <!-- YORUMLAR -->
   <div style="margin-top: 40px;">
     <h3>📝 Yapılan Yorumlar:</h3>
     {% if yorumlar %}
       {% for y in yorumlar %}
         <div style="margin-bottom: 20px; padding: 15px; background-color: rgba(255,255,255,0.05); border-radius: 8px;">
-          <strong>{{ y.isim }}</strong> – {{ y.puan }} ⭐ <br>
-          <small><em>{{ y.tarih }}</em></small>
-          <p>{{ y.yazi }}</p>
+          <strong>{{ y.username }}</strong> – {{ y.rating }} ⭐<br>
+          <small><em>{{ y.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</em></small>
+          <p>{{ y.text }}</p>
         </div>
       {% endfor %}
     {% else %}

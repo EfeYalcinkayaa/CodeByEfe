@@ -7,13 +7,11 @@
   .silver { color: silver; font-weight: bold; }
   .bronze { color: #cd7f32; font-weight: bold; }
   .normal { color: #aadfff; }
-
   .grid {
     display: grid;
     gap: 10px;
     margin-top: 20px;
   }
-
   .card {
     background-color: #f0f0f0;
     font-size: 2rem;
@@ -24,28 +22,23 @@
     transition: all 0.3s ease;
     text-align: center;
   }
-
   .card.matched {
     background-color: #90ee90;
     pointer-events: none;
   }
-
   .card.highlight {
     box-shadow: 0 0 12px 4px gold;
     transform: scale(1.1);
     transition: all 0.5s ease;
   }
-
   .card.flipped {
     background-color: #ffffff;
   }
-
   #retryContainer {
     display: none;
     text-align: center;
     margin-top: 40px;
   }
-
   #retryBtn {
     background-color: #ff4d4d;
     color: white;
@@ -58,11 +51,9 @@
     transition: background 0.3s ease;
     cursor: pointer;
   }
-
   #retryBtn:hover {
     background-color: #e60000;
   }
-
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -70,7 +61,6 @@
 </style>
 
 <section style="max-width: 800px; margin: 40px auto; text-align: center;">
-
   <div style="background-color: #ffc107; color: #212529; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">
     ⚠️ Attention: <u>Your score will <strong>not be saved</strong></u> or listed on the scoreboard unless you are <strong>logged in</strong>.
   </div>
@@ -79,10 +69,7 @@
   <p>Find the matching cards! Each level gets harder.</p>
 
   <button id="startBtn" class="btn">▶ Start</button>
-
-  <div id="retryContainer">
-    <button id="retryBtn">🔄 Try Again</button>
-  </div>
+  <div id="retryContainer"><button id="retryBtn">🔄 Try Again</button></div>
 
   <div id="game-stats" style="display: none;">
     <div style="display: flex; justify-content: space-between; margin-top: 20px;">
@@ -111,10 +98,6 @@
     </ul>
   </div>
 
-  <form id="scoreForm" method="POST" action="/submit_score">
-    <input type="hidden" name="score" id="scoreInput">
-  </form>
-
   <script>
     let startTime, intervalId;
 
@@ -141,7 +124,6 @@
       const startBtn = document.getElementById("startBtn");
       const retryBtn = document.getElementById("retryBtn");
       const retryContainer = document.getElementById("retryContainer");
-
       const symbols = ["🍎", "🍌", "🍒", "🍇", "🍉", "🍍", "🥝", "🥥", "🍋", "🍑", "🍓", "🍈"];
 
       function shuffle(array) {
@@ -163,7 +145,6 @@
         const cards = generateCards(level);
         const total = cards.length;
         const cols = Math.ceil(Math.sqrt(total));
-
         board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
         matched = 0;
         first = null;
@@ -185,10 +166,7 @@
         const cards = document.querySelectorAll(".card");
         cards.forEach(c => c.classList.add("flipped", "highlight"));
 
-        setTimeout(() => {
-          cards.forEach(c => c.classList.remove("highlight"));
-        }, (time - 1) * 1000);
-
+        setTimeout(() => cards.forEach(c => c.classList.remove("highlight")), (time - 1) * 1000);
         setTimeout(() => {
           cards.forEach(c => {
             c.classList.remove("flipped");
@@ -207,7 +185,6 @@
       function handleCardClick(e) {
         const card = e.target;
         if (card.classList.contains("matched") || card.innerHTML !== "❓") return;
-
         card.innerHTML = card.dataset.symbol;
 
         if (!first) {
@@ -218,7 +195,6 @@
             card.classList.add("matched");
             matched++;
             first = null;
-
             if (matched === document.querySelectorAll(".card").length / 2) {
               document.getElementById("status").innerText = "✔ Level completed! Increasing difficulty...";
               setTimeout(() => {
@@ -236,7 +212,6 @@
               card.innerHTML = "❓";
               first = null;
             }, 800);
-
             if (wrongAttempts >= maxWrong) {
               document.getElementById("status").innerText = "❌ Too many mistakes. Game over.";
               stopTimer();
@@ -245,8 +220,10 @@
               if (username !== "Guest") {
                 fetch("/submit_score", {
                   method: "POST",
-                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                  body: `score=${currentLevel - 1}`
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ score: currentLevel - 1 })
                 })
                 .then(res => res.json())
                 .then(data => {

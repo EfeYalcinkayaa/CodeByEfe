@@ -463,7 +463,7 @@ body {
   }
 }
 
-/* === HAMBURGER MENU (MOBILE ONLY) === */
+/* HAMBURGER BUTTON */
 .hamburger {
   position: fixed;
   top: 12px;
@@ -478,36 +478,61 @@ body {
   display: none;
   cursor: pointer;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* === RESPONSIVE NAVIGATION === */
+.hamburger:hover {
+  background-color: #006699;
+  transform: scale(1.05);
+}
+
+/* NAVBAR GENEL */
+.navbar {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* RESPONSIVE NAVBAR */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
   }
 
   .nav-content {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background-color: rgba(0, 102, 153, 0.95);
     backdrop-filter: blur(6px);
-    padding: 30px 20px;
+    padding: 25px 20px;
     position: fixed;
-    top: 0;
+    top: -100vh;
     left: 0;
     right: 0;
-    height: 100vh;
     z-index: 2000;
+    height: 100vh;
     overflow-y: auto;
-    transition: all 0.3s ease-in-out;
+    transition: top 0.4s ease-in-out;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
 
   .nav-content.show {
-    display: flex;
+    top: 0;
+  }
+
+  .nav-content.show::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -1;
   }
 
   .nav-left,
@@ -515,39 +540,28 @@ body {
   .nav-right {
     width: 100%;
     text-align: center;
-    margin: 18px 0;
+    margin: 15px 0;
   }
 
   .nav-left a,
-  .nav-center a,
-  .nav-right a {
+  .nav-right a,
+  .nav-center a {
     display: block;
-    padding: 12px;
+    padding: 10px;
     font-size: 1.2rem;
     color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
   }
 
   .nav-left a:hover,
-  .nav-center a:hover,
-  .nav-right a:hover {
-    color: #FFD700;
+  .nav-right a:hover,
+  .nav-center a:hover {
     text-decoration: underline;
+    color: #FFD700;
   }
 
   .theme-toggle {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 1.1rem;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 8px;
-  }
-
-  .theme-toggle:hover {
-    background-color: white;
-    color: #004466;
   }
 }

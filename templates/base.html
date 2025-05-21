@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="title" content="CodeByEfe - Yazılım Geliştirici">
   <meta name="description" content="CodeByEfe: Python, web geliştirme, mini oyunlar, CV ve başarılarımın yer aldığı kişisel portföy sitesidir.">
-
   <title>CodeByEfe</title>
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
@@ -41,7 +39,6 @@
         {% else %}
           <a href="/login?lang=tr">Giriş Yap</a>
         {% endif %}
-
         <a href="/en" class="lang-btn">🌐 English</a>
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
@@ -78,7 +75,7 @@
     &copy; 2025 İsmail Efe Yalçınkaya
   </footer>
 
-  <!-- TEMA DEĞİŞTİRME -->
+  <!-- THEME & NAVBAR TOGGLE -->
   <script>
     window.onload = function () {
       const savedTheme = localStorage.getItem("theme");
@@ -90,24 +87,17 @@
     function toggleTheme() {
       const body = document.getElementById("body");
       body.classList.toggle("dark-mode");
-      if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-      } else {
-        localStorage.setItem("theme", "light");
-      }
+      localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
     }
 
-    // NAVBAR TOGGLE (mobil)
     function toggleNavbar() {
-      const nav = document.getElementById("navContent");
-      nav.classList.toggle("show");
+      document.getElementById("navContent").classList.toggle("show");
     }
   </script>
 
   <!-- GSAP ANİMASYON -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
   <script>
     gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray(".grid-section .info-card:nth-child(n+3)").forEach(el => {

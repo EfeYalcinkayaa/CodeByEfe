@@ -2,24 +2,26 @@
 {% block title %}CV | CodeByEfe{% endblock %}
 
 <section style="max-width: 800px; margin: 40px auto; text-align: center;">
-  <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">📄 Özgeçmiş</h2>
+  <div class="info-card">
+    <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">📄 Özgeçmiş</h2>
 
-  <p style="color: #ccc;">CV'mi aşağıda görebilir veya PDF olarak indirebilirsiniz.</p>
+    <p style="color: #ccc;">CV'mi aşağıda görebilir veya PDF olarak indirebilirsiniz.</p>
 
-  <!-- İNDİRME BUTONU -->
-  <a class="btn btn-success" 
-     href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" 
-     download 
-     style="margin-bottom: 20px; display: inline-block;">
-    📥 PDF Olarak İndir
-  </a>
+    <!-- İNDİRME BUTONU -->
+    <a class="btn btn-success" 
+       href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" 
+       download 
+       style="margin-bottom: 20px; display: inline-block;">
+      📥 PDF Olarak İndir
+    </a>
 
-  <!-- GÖRÜNTÜLEME -->
-  <div style="margin-top: 20px;">
-    <embed src="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" 
-           type="application/pdf" 
-           width="100%" 
-           height="700px" 
-           style="border: 2px solid #ccc; border-radius: 12px;" />
+    <!-- GÖRÜNTÜLEME -->
+    <div style="margin-top: 20px;">
+      <embed src="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" 
+             type="application/pdf" 
+             width="100%" 
+             height="700px" 
+             style="border: 2px solid #ccc; border-radius: 12px;" />
+    </div>
   </div>
 </section>

@@ -9,42 +9,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+  <style>
+    .hr-separator {
+      border: 0;
+      height: 2px;
+      width: 80%;
+      margin: 10px auto;
+      background: linear-gradient(to right, transparent, #ff4b2b, transparent);
+      animation: expand 1.2s ease forwards;
+    }
+
+    @keyframes expand {
+      from {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 
 <body id="body">
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-content" id="navContent">
-      <div class="nav-left">
-        <a href="/">Anasayfa</a>
-        <div class="dropdown">
-          <a class="dropbtn">İletişim ▾</a>
-          <div class="dropdown-content">
-            <a href="mailto:efeyalcinkaya@icloud.com">E-posta Gönder</a>
-            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
-            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-center">
-        <a href="/minigame" class="nav-game-link animate-game-btn">🎮 Mini Oyun Oyna</a>
-      </div>
-
-      <div class="nav-right">
-        <a href="/forum" class="forum-link">💬 Forum</a>
-        {% if session.username %}
-          <span style="margin-right: 10px;">👤 {{ session.username }}</span>
-          <a href="/logout">Çıkış Yap</a>
-        {% else %}
-          <a href="/login?lang=tr">Giriş Yap</a>
-        {% endif %}
-        <a href="/en" class="lang-btn">🌐 English</a>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-      </div>
+      <a href="/">Anasayfa</a>
+      <hr class="hr-separator">
+      <a href="mailto:efeyalcinkaya@icloud.com">İletişim</a>
+      <hr class="hr-separator">
+      <a href="/minigame">🎮 Mini Oyun Oyna</a>
+      <hr class="hr-separator">
+      <a href="/forum">💬 Forum</a>
+      <hr class="hr-separator">
+      {% if session.username %}
+        <span style="color:white;">👤 {{ session.username }}</span>
+        <a href="/logout">Çıkış Yap</a>
+      {% else %}
+        <a href="/login?lang=tr">Giriş Yap</a>
+      {% endif %}
+      <hr class="hr-separator">
+      <a href="/en">🌐 English</a>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </div>
 
-    <!-- MOBİL HAMBURGER BUTONU -->
+    <!-- HAMBURGER BUTTON -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
 
@@ -100,7 +111,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray(".grid-section .info-card:nth-child(n+3)").forEach(el => {
+    gsap.utils.toArray(".info-card").forEach(el => {
       gsap.fromTo(el,
         { opacity: 0, y: 30 },
         {

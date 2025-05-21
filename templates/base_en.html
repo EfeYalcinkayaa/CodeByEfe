@@ -3,50 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="title" content="CodeByEfe - Software Developer">
   <meta name="description" content="CodeByEfe is a personal portfolio website showcasing software development projects, mini games, resume, and certifications.">
-
   <title>CodeByEfe</title>
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+  <style>
+    .hr-separator {
+      border: 0;
+      height: 2px;
+      width: 80%;
+      margin: 10px auto;
+      background: linear-gradient(to right, transparent, #ff4b2b, transparent);
+      animation: expand 1.2s ease forwards;
+    }
+
+    @keyframes expand {
+      from {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 
 <body id="body">
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-content" id="navContent">
-      <div class="nav-left">
-        <a href="/en">Home</a>
-        <div class="dropdown">
-          <a class="dropbtn">Contact ▾</a>
-          <div class="dropdown-content">
-            <a href="mailto:efeyalcinkaya@icloud.com">Send Email</a>
-            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
-            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-center">
-        <a href="/minigame_en" class="nav-game-link animate-game-btn">🎮 Play Mini Game</a>
-      </div>
-
-      <div class="nav-right">
-        <a href="/forum_en" class="forum-link">💬 Forum</a>
-        {% if session.username %}
-          <span style="margin-right: 10px;">👤 {{ session.username }}</span>
-          <a href="/logout">Logout</a>
-        {% else %}
-          <a href="/login?lang=en">Login</a>
-        {% endif %}
-        <a href="/" class="lang-btn">🇹🇷 Türkçe</a>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-      </div>
+      <a href="/en">Home</a>
+      <hr class="hr-separator">
+      <a href="mailto:efeyalcinkaya@icloud.com">Contact</a>
+      <hr class="hr-separator">
+      <a href="/minigame_en">🎮 Play Mini Game</a>
+      <hr class="hr-separator">
+      <a href="/forum_en">💬 Forum</a>
+      <hr class="hr-separator">
+      {% if session.username %}
+        <span style="color:white;">👤 {{ session.username }}</span>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/login?lang=en">Login</a>
+      {% endif %}
+      <hr class="hr-separator">
+      <a href="/">🇹🇷 Türkçe</a>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </div>
 
-    <!-- HAMBURGER BUTTON - Top Right -->
+    <!-- HAMBURGER BUTTON -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
 
@@ -77,7 +86,7 @@
     &copy; 2025 Ismail Efe Yalcinkaya
   </footer>
 
-  <!-- THEME & NAV TOGGLE -->
+  <!-- THEME & NAVBAR TOGGLE -->
   <script>
     window.onload = function () {
       const savedTheme = localStorage.getItem("theme");
@@ -100,10 +109,9 @@
   <!-- GSAP ANIMATION -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
   <script>
     gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray(".grid-section .info-card:nth-child(n+3)").forEach(el => {
+    gsap.utils.toArray(".info-card").forEach(el => {
       gsap.fromTo(el,
         { opacity: 0, y: 30 },
         {

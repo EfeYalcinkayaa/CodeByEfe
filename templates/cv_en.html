@@ -3,23 +3,25 @@
 
 {% block content %}
 <section style="max-width: 800px; margin: 40px auto; text-align: center;">
-  <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">📄 Resume</h2>
+  <div class="info-card">
+    <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff;">📄 Resume</h2>
 
-  <p style="color: #ccc;">You can view or download my resume as a PDF below.</p>
+    <p style="color: #ccc;">You can view or download my resume as a PDF below.</p>
 
-  <!-- DOWNLOAD BUTTON -->
-  <a href="{{ url_for('download_cv_en') }}"
-     style="display: inline-block; margin: 16px 0; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
-     📥 Download Resume (PDF)
-  </a>
+    <!-- DOWNLOAD BUTTON -->
+    <a href="{{ url_for('download_cv_en') }}"
+       style="display: inline-block; margin: 16px 0; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">
+       📥 Download Resume (PDF)
+    </a>
 
-  <!-- VIEW PDF INLINE -->
-  <div style="margin-top: 20px;">
-    <embed src="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv_en.pdf') }}" 
-           type="application/pdf" 
-           width="100%" 
-           height="700px" 
-           style="border: 2px solid #ccc; border-radius: 12px;" />
+    <!-- VIEW PDF INLINE -->
+    <div style="margin-top: 20px;">
+      <embed src="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv_en.pdf') }}" 
+             type="application/pdf" 
+             width="100%" 
+             height="700px" 
+             style="border: 2px solid #ccc; border-radius: 12px;" />
+    </div>
   </div>
 </section>
 {% endblock %}

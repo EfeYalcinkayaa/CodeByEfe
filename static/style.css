@@ -466,9 +466,9 @@ body {
 /* HAMBURGER BUTTON */
 .hamburger {
   position: fixed;
-  top: 70px; /* 12px yerine aşağı kaydırıldı */
+  top: 70px;
   right: 16px;
-  background: linear-gradient(135deg, #ff416c, #ff4b2b); /* dikkat çeken turuncu-pembe geçişli */
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
   border: none;
   font-size: 2.2rem;
   color: white;
@@ -505,9 +505,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(0, 102, 153, 0.95);
-    backdrop-filter: blur(6px);
-    padding: 25px 20px;
+    background: rgba(20, 20, 20, 0.85); /* daha koyu, estetik */
+    backdrop-filter: blur(8px); /* cam efekti */
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    padding: 30px 20px;
     position: fixed;
     top: -100vh;
     left: 0;
@@ -515,13 +517,13 @@ body {
     z-index: 2000;
     height: 100vh;
     overflow-y: auto;
-    transition: top 0.4s ease-in-out;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
+    transition: top 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
   }
 
   .nav-content.show {
     top: 0;
+    opacity: 1;
   }
 
   .nav-content.show::before {
@@ -540,15 +542,16 @@ body {
   .nav-right {
     width: 100%;
     text-align: center;
-    margin: 15px 0;
+    margin: 12px 0;
   }
 
   .nav-left a,
   .nav-right a,
   .nav-center a {
     display: block;
-    padding: 10px;
-    font-size: 1.2rem;
+    padding: 12px;
+    font-size: 1.25rem;
+    font-weight: 500;
     color: white;
     text-decoration: none;
   }
@@ -556,12 +559,12 @@ body {
   .nav-left a:hover,
   .nav-right a:hover,
   .nav-center a:hover {
-    text-decoration: underline;
     color: #FFD700;
+    text-shadow: 0 0 6px #FFD700;
   }
 
   .theme-toggle {
-    margin-top: 14px;
+    margin-top: 20px;
     font-size: 1.1rem;
   }
 }

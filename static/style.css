@@ -466,24 +466,24 @@ body {
 /* HAMBURGER BUTTON */
 .hamburger {
   position: fixed;
-  top: 12px;
-  right: 12px;
-  background: #004466;
+  top: 70px; /* 12px yerine aşağı kaydırıldı */
+  right: 16px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b); /* dikkat çeken turuncu-pembe geçişli */
   border: none;
   font-size: 2.2rem;
   color: white;
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 14px;
+  padding: 8px 14px;
   z-index: 2001;
   display: none;
   cursor: pointer;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .hamburger:hover {
-  background-color: #006699;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  transform: scale(1.07);
 }
 
 /* NAVBAR GENEL */

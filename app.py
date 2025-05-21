@@ -6,8 +6,12 @@ from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer
 from email.utils import formataddr
-from datetime import datetime
 from models import db, User, Score, Comment
+from datetime import datetime
+import pytz
+
+# Timezone for Turkey
+turkey_tz = pytz.timezone("Europe/Istanbul")
 
 load_dotenv(dotenv_path=".env", override=True)
 
@@ -110,7 +114,7 @@ def register():
         return redirect("/login")
     return render_template("register_en.html" if lang == "en" else "register.html")
 
-@app.route('/confirm/<token>')
+@app.route("/confirm/<token>")
 def confirm_email(token):
     lang = request.args.get("lang", "tr")
     try:
@@ -148,109 +152,35 @@ def logout():
     flash("Logged out.")
     return redirect(request.referrer or "/")
 
-@app.route("/reset", methods=["GET", "POST"])
-def reset_password():
-    lang = request.args.get("lang", "tr")
-    is_en = lang == "en"
-
-    if request.method == "POST":
-        email = request.form['email']
-        user = User.query.filter_by(email=email).first()
-        if user:
-            token = serializer.dumps(email, salt='reset-password')
-            reset_url = url_for('reset_token', token=token, _external=True)
-            msg = Message("Password Reset", recipients=[email])
-            msg.body = f"Hi, click the link to reset your password:\n{reset_url}" if is_en else f"Merhaba, şifrenizi sıfırlamak için bağlantıya tıklayın:\n{reset_url}"
-            mail.send(msg)
-            flash("A password reset link has been sent to your email." if is_en else "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.")
-        else:
-            flash("No account found with this email." if is_en else "Bu e-posta ile kayıtlı hesap bulunamadı.")
-        return redirect("/login?lang=en" if is_en else "/login")
-
-    return render_template("reset_en.html" if is_en else "reset.html")
-
-
-@app.route("/reset/<token>", methods=["GET", "POST"])
-def reset_token(token):
-    lang = request.args.get("lang", "tr")
-    is_en = lang == "en"
-
-    try:
-        email = serializer.loads(token, salt='reset-password', max_age=3600)
-    except:
-        return ("Reset link is invalid or has expired.", 400) if is_en else ("Bağlantı geçersiz veya süresi dolmuş.", 400)
-
-    if request.method == "POST":
-        user = User.query.filter_by(email=email).first()
-        if user:
-            new_password = generate_password_hash(request.form['password'])
-            user.password = new_password
-            db.session.commit()
-            flash("Your password has been updated." if is_en else "Şifreniz güncellendi.")
-            return redirect("/login?lang=en" if is_en else "/login")
-        return ("User not found.", 404) if is_en else ("Kullanıcı bulunamadı.", 404)
-
-    return render_template("reset_token_en.html" if is_en else "reset_token.html")
-
 @app.route("/submit_score", methods=["POST"])
 def submit_score():
     if 'username' not in session:
         return jsonify(success=False, message="Unauthorized"), 401
 
     username = session['username']
-    score_val = int(request.json.get("score", 0))  # <--- DİKKAT BURAYA
+    score_val = int(request.json.get("score", 0))
 
     existing = Score.query.filter_by(username=username).first()
     newHighScore = False
 
+    now_tr = datetime.now(turkey_tz).isoformat()
+
     if existing:
         if score_val > existing.score:
             existing.score = score_val
-            existing.timestamp = datetime.utcnow().isoformat()
+            existing.timestamp = now_tr
             db.session.commit()
             newHighScore = True
     else:
         db.session.add(Score(
             username=username,
             score=score_val,
-            timestamp=datetime.utcnow().isoformat()
+            timestamp=now_tr
         ))
         db.session.commit()
         newHighScore = True
 
     return jsonify(success=True, newHighScore=newHighScore)
-
-@app.route("/leaderboard")
-def leaderboard():
-    skorlar = Score.query.order_by(Score.score.desc()).all()
-    return render_template("leaderboard.html", skorlar=skorlar)
-
-@app.route("/leaderboard_en")
-def leaderboard_en():
-    skorlar = Score.query.order_by(Score.score.desc()).all()
-    return render_template("leaderboard_en.html", skorlar=skorlar)
-
-@app.route("/leaderboard_data")
-def leaderboard_data():
-    skorlar = Score.query.order_by(Score.score.desc()).limit(30).all()
-    return jsonify([{"username": s.username, "score": s.score} for s in skorlar])
-
-@app.route("/api/scoreboard")
-def api_scoreboard():
-    # Her kullanıcıdan en yüksek skorunu al
-    subq = db.session.query(
-        Score.username,
-        db.func.max(Score.score).label("score")
-    ).group_by(Score.username).subquery()
-
-    scores = db.session.query(Score).join(
-        subq, (Score.username == subq.c.username) & (Score.score == subq.c.score)
-    ).order_by(Score.score.desc()).all()
-
-    return jsonify([
-        {"username": s.username, "score": s.score}
-        for s in scores
-    ])
 
 @app.route("/forum", methods=["GET", "POST"])
 def forum():
@@ -261,7 +191,8 @@ def forum():
         yorum = Comment(
             username=session['username'],
             text=request.form.get("yorum"),
-            rating=int(request.form.get("puan"))
+            rating=int(request.form.get("puan")),
+            timestamp=datetime.now(turkey_tz)
         )
         db.session.add(yorum)
         db.session.commit()
@@ -283,7 +214,8 @@ def forum_en():
         yorum = Comment(
             username=session['username'],
             text=request.form.get("yorum"),
-            rating=int(request.form.get("puan"))
+            rating=int(request.form.get("puan")),
+            timestamp=datetime.now(turkey_tz)
         )
         db.session.add(yorum)
         db.session.commit()
@@ -295,6 +227,34 @@ def forum_en():
                            dolu_yildiz=int(round(ortalama)) if ortalama else 0,
                            bos_yildiz=5 - int(round(ortalama)) if ortalama else 5,
                            username=session.get("username"))
+
+@app.route("/leaderboard")
+def leaderboard():
+    skorlar = Score.query.order_by(Score.score.desc()).all()
+    return render_template("leaderboard.html", skorlar=skorlar)
+
+@app.route("/leaderboard_en")
+def leaderboard_en():
+    skorlar = Score.query.order_by(Score.score.desc()).all()
+    return render_template("leaderboard_en.html", skorlar=skorlar)
+
+@app.route("/leaderboard_data")
+def leaderboard_data():
+    skorlar = Score.query.order_by(Score.score.desc()).limit(30).all()
+    return jsonify([{"username": s.username, "score": s.score} for s in skorlar])
+
+@app.route("/api/scoreboard")
+def api_scoreboard():
+    subq = db.session.query(
+        Score.username,
+        db.func.max(Score.score).label("score")
+    ).group_by(Score.username).subquery()
+
+    scores = db.session.query(Score).join(
+        subq, (Score.username == subq.c.username) & (Score.score == subq.c.score)
+    ).order_by(Score.score.desc()).all()
+
+    return jsonify([{"username": s.username, "score": s.score} for s in scores])
 
 @app.route("/admin")
 def admin_panel():

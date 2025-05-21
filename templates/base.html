@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ 'en' if lang == 'en' else 'tr' }}">
-  
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,11 +17,11 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-left">
-      <a href="/{% if lang == 'en' %}en{% endif %}">{{ 'Home' if lang == 'en' else 'Anasayfa' }}</a>
+      <a href="/">Anasayfa</a>
       <div class="dropdown">
-        <a class="dropbtn">{{ 'Contact' if lang == 'en' else 'İletişim' }} ▾</a>
+        <a class="dropbtn">İletişim ▾</a>
         <div class="dropdown-content">
-          <a href="mailto:efeyalcinkaya@icloud.com">{{ 'Send Email' if lang == 'en' else 'E-posta Gönder' }}</a>
+          <a href="mailto:efeyalcinkaya@icloud.com">E-posta Gönder</a>
           <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
           <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
         </div>
@@ -30,27 +29,19 @@
     </div>
 
     <div class="nav-center">
-      {% if lang == 'en' %}
-        <a href="/minigame_en" class="nav-game-link animate-game-btn">🎮 Play Mini Game</a>
-      {% else %}
-        <a href="/minigame" class="nav-game-link animate-game-btn">🎮 Mini Oyun Oyna</a>
-      {% endif %}
+      <a href="/minigame" class="nav-game-link animate-game-btn">🎮 Mini Oyun Oyna</a>
     </div>
 
     <div class="nav-right">
       <a href="/forum" class="forum-link">💬 Forum</a>
       {% if session.username %}
         <span style="margin-right: 10px;">👤 {{ session.username }}</span>
-        <a href="/logout">{{ 'Logout' if lang == 'en' else 'Çıkış Yap' }}</a>
+        <a href="/logout">Çıkış Yap</a>
       {% else %}
-        <a href="/login?lang={{ lang }}">{{ 'Login' if lang == 'en' else 'Giriş Yap' }}</a>
+        <a href="/login?lang=tr">Giriş Yap</a>
       {% endif %}
 
-      {% if lang == 'en' %}
-        <a href="/" class="lang-btn">🇹🇷 Türkçe</a>
-      {% else %}
-        <a href="/en" class="lang-btn">🌐 English</a>
-      {% endif %}
+      <a href="/en" class="lang-btn">🌐 English</a>
       <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </div>
   </nav>
@@ -58,7 +49,7 @@
   <!-- HEADER -->
   <header>
     <h1 class="glow-text">CodeByEfe</h1>
-    <p>{{ 'Software Developer' if lang == 'en' else 'Yazılım Geliştirici' }}</p>
+    <p>Yazılım Geliştirici</p>
   </header>
 
   <!-- FLASH MESSAGES -->
@@ -82,9 +73,8 @@
     &copy; 2025 İsmail Efe Yalçınkaya
   </footer>
 
-  <!-- THEME SCRIPT (KALICILIK İÇİN) -->
+  <!-- THEME SCRIPT -->
   <script>
-    // Sayfa yüklenince önceki tema uygulanır
     window.onload = function () {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme === "dark") {
@@ -92,7 +82,6 @@
       }
     };
 
-    // Tema değiştirici
     function toggleTheme() {
       const body = document.getElementById("body");
       body.classList.toggle("dark-mode");
@@ -104,7 +93,7 @@
     }
   </script>
 
-  <!-- GSAP ANİMASYONLARI -->
+  <!-- GSAP ANİMASYON -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 

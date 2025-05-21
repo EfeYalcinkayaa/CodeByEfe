@@ -462,3 +462,64 @@ body {
     margin-top: 8px;
   }
 }
+
+/* HAMBURGER MENU - Mobile Only */
+.hamburger {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background: #004466;
+  border: none;
+  font-size: 2.2rem;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 14px;
+  z-index: 2001;
+  display: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0077b6;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .nav-content.show {
+    display: flex;
+  }
+
+  .nav-left,
+  .nav-center,
+  .nav-right {
+    width: 100%;
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .nav-left a,
+  .nav-right a,
+  .nav-center a {
+    display: block;
+    padding: 10px;
+    font-size: 1.2rem;
+  }
+
+  .theme-toggle {
+    margin-top: 10px;
+  }
+}

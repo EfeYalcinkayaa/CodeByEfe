@@ -16,34 +16,39 @@
 <body id="body">
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-left">
-      <a href="/en">Home</a>
-      <div class="dropdown">
-        <a class="dropbtn">Contact ▾</a>
-        <div class="dropdown-content">
-          <a href="mailto:efeyalcinkaya@icloud.com">Send Email</a>
-          <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
-          <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+    <div class="nav-content" id="navContent">
+      <div class="nav-left">
+        <a href="/en">Home</a>
+        <div class="dropdown">
+          <a class="dropbtn">Contact ▾</a>
+          <div class="dropdown-content">
+            <a href="mailto:efeyalcinkaya@icloud.com">Send Email</a>
+            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+          </div>
         </div>
+      </div>
+
+      <div class="nav-center">
+        <a href="/minigame_en" class="nav-game-link animate-game-btn">🎮 Play Mini Game</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="/forum_en" class="forum-link">💬 Forum</a>
+        {% if session.username %}
+          <span style="margin-right: 10px;">👤 {{ session.username }}</span>
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/login?lang=en">Login</a>
+        {% endif %}
+
+        <a href="/" class="lang-btn">🇹🇷 Türkçe</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
 
-    <div class="nav-center">
-      <a href="/minigame_en" class="nav-game-link animate-game-btn">🎮 Play Mini Game</a>
-    </div>
-
-    <div class="nav-right">
-      <a href="/forum_en" class="forum-link">💬 Forum</a>
-      {% if session.username %}
-        <span style="margin-right: 10px;">👤 {{ session.username }}</span>
-        <a href="/logout">Logout</a>
-      {% else %}
-        <a href="/login?lang=en">Login</a>
-      {% endif %}
-
-      <a href="/" class="lang-btn">🇹🇷 Türkçe</a>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-    </div>
+    <!-- MOBILE HAMBURGER BUTTON -->
+    <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
 
   <!-- HEADER -->
@@ -73,7 +78,7 @@
     &copy; 2025 Ismail Efe Yalcinkaya
   </footer>
 
-  <!-- THEME SCRIPT -->
+  <!-- THEME TOGGLE SCRIPT -->
   <script>
     window.onload = function () {
       const savedTheme = localStorage.getItem("theme");
@@ -90,6 +95,11 @@
       } else {
         localStorage.setItem("theme", "light");
       }
+    }
+
+    function toggleNavbar() {
+      const nav = document.getElementById("navContent");
+      nav.classList.toggle("show");
     }
   </script>
 

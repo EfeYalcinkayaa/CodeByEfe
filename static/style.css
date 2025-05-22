@@ -851,3 +851,84 @@ body {
   from { text-shadow: 0 0 4px #e74c3c; }
   to   { text-shadow: 0 0 16px #e74c3c; }
 }
+
+/* —— MOBİL HAMBURGER MENÜ —— */
+@media screen and (max-width: 768px) {
+  .nav-content {
+    display: flex;
+    flex-direction: column;
+    background: transparent !important;
+    padding: 0 16px;
+  }
+
+  /* Ortak menü öğesi stili */
+  .nav-content a,
+  .nav-content .dropdown > a,
+  .nav-content .theme-toggle {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    background: rgba(30,30,60,0.8) !important;
+    color: #ffb74d !important;  /* ortak turuncu */
+    text-align: center;
+    border-radius: 8px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  .nav-content a:hover,
+  .nav-content .dropdown > a:hover,
+  .nav-content .theme-toggle:hover {
+    color: #ffd27f !important;
+  }
+
+  /* Dropdown içeriğini başta gizle */
+  .nav-content .dropdown-content {
+    display: none;
+    flex-direction: column;
+    margin: 8px 0;
+    padding: 0;
+  }
+  /* .open olduğunda göster */
+  .nav-content .dropdown.open .dropdown-content {
+    display: flex;
+  }
+  .nav-content .dropdown-content a {
+    margin: 6px 0;
+    padding: 12px 0;
+    background: rgba(30,30,60,0.8) !important;
+    color: #ffb74d !important;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  .nav-content .dropdown-content a:hover {
+    background: rgba(30,30,100,0.9) !important;
+  }
+
+  /* Dil ve tema butonlarına ekstra boşluk */
+  .nav-content a[href*="lang="],
+  .nav-content .theme-toggle {
+    margin-top: 16px;
+  }
+
+  /* Mini Oyun Oyna – açık yeşil yanıp sönme */
+  .nav-content a.highlight-menu {
+    color: #90EE90 !important;
+    animation: pulseGreen 1.5s infinite alternate;
+  }
+  /* Giriş Yap – kırmızı yanıp sönme */
+  .nav-content a.highlight-login {
+    color: #e74c3c !important;
+    animation: pulseRed 1.5s infinite alternate;
+  }
+}
+
+/* Animasyon anahtarları */
+@keyframes pulseGreen {
+  from { text-shadow: 0 0 4px #90EE90; }
+  to   { text-shadow: 0 0 16px #90EE90; }
+}
+@keyframes pulseRed {
+  from { text-shadow: 0 0 4px #e74c3c; }
+  to   { text-shadow: 0 0 16px #e74c3c; }
+}

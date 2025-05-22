@@ -25,88 +25,68 @@
 
     /* —— HAMBURGER MENU STYLES (MOBILE ONLY) —— */
     @media screen and (max-width: 768px) {
-      /* overlay background */
+      /* Semi-transparent dark overlay */
       .nav-content {
         background: rgba(0, 0, 0, 0.8);
         padding: 20px;
       }
-      /* menu items full-width blocks */
+      /* Menu items: transparent background, highlight colored text */
       .nav-content a,
       .nav-content .dropdown > a,
       .nav-content .theme-toggle {
         display: block;
         width: 100%;
-        padding: 16px 0;
-        margin: 8px 0;
+        padding: 12px 0;
+        margin: 0;
         font-size: 1.2rem;
+        background: transparent !important;
         color: #ffb74d !important;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
         text-align: center;
-        position: relative;
-        overflow: hidden;
-        transition: background 0.3s ease, transform 0.2s ease;
+        transition: color 0.3s ease;
       }
       .nav-content a:hover,
       .nav-content .dropdown > a:hover,
       .nav-content .theme-toggle:hover {
-        background: rgba(255, 183, 77, 0.2);
-        transform: translateY(-2px);
+        color: #ffd27f !important;
       }
-      /* animated red separators between all items */
+      /* Animated red separators between all items */
       .nav-content a:not(:last-of-type)::after,
+      .nav-content .dropdown > a:not(:last-of-type)::after,
       .nav-content .theme-toggle:not(:last-of-type)::after {
         content: '';
         display: block;
         width: 90%;
         height: 2px;
         background: #e74c3c;
-        margin: 12px auto;
+        margin: 8px auto;
         transform-origin: center;
         transform: scaleX(0);
-        animation: expandMobile 0.8s ease forwards;
+        animation: expandMobile 0.6s ease forwards;
+      }
+      /* "Play Mini Game" highlight */
+      .nav-content a.highlight-menu {
+        color: #e74c3c !important;
+        font-weight: bold;
+      }
+      /* "Login" highlight */
+      .nav-content a.highlight-login {
+        color: #3498db !important;
+        font-weight: bold;
       }
       @keyframes expandMobile {
         to { transform: scaleX(1); }
       }
-      /* highlight play button */
-      .nav-content a.highlight-menu {
-        background: rgba(231, 76, 60, 0.3) !important;
-        color: #e74c3c !important;
-        font-weight: bold;
-      }
-      .nav-content a.highlight-menu:hover {
-        background: rgba(231, 76, 60, 0.5) !important;
-      }
-      /* highlight login button */
-      .nav-content a.highlight-login {
-        background: rgba(52, 152, 219, 0.3) !important;
-        color: #3498db !important;
-        font-weight: bold;
-      }
-      .nav-content a.highlight-login:hover {
-        background: rgba(52, 152, 219, 0.5) !important;
-      }
-      /* dropdown content */
-      .nav-content .dropdown-content {
-        background: rgba(20, 20, 20, 0.9);
-        margin: 8px 0;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-        overflow: hidden;
-      }
-      .nav-content .dropdown-content a {
-        padding: 12px 0;
-        color: #ffb74d !important;
-        background: transparent !important;
-        border-bottom: 1px solid rgba(231, 76, 60, 0.3);
-        transition: background 0.2s ease;
-      }
-      .nav-content .dropdown-content a:last-child {
-        border-bottom: none;
-      }
-      .nav-content .dropdown-content a:hover {
-        background: rgba(231, 76, 60, 0.1) !important;
+      /* Dropdown content separators */
+      .nav-content .dropdown-content a:not(:last-child)::after {
+        content: '';
+        display: block;
+        width: 80%;
+        height: 1px;
+        background: #e74c3c;
+        margin: 4px auto;
+        transform-origin: center;
+        transform: scaleX(0);
+        animation: expandMobile 0.6s ease forwards;
       }
     }
   </style>
@@ -140,13 +120,16 @@
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
+    <!-- HAMBURGER BUTTON -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
+
   <!-- HEADER -->
   <header>
     <h1 class="glow-text">CodeByEfe</h1>
     <p>Software Developer</p>
   </header>
+
   <!-- FLASH MESSAGES -->
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -157,12 +140,15 @@
       </div>
     {% endif %}
   {% endwith %}
+
   <!-- MAIN CONTENT -->
   <main>
     {% block content %}{% endblock %}
   </main>
+
   <!-- FOOTER -->
-  <footer>&copy; 2025 Ismail Efe Yalcinkaya</footer>
+  <footer>&copy; 2025 Ismail Efe Yalçınkaya</footer>
+
   <!-- SCRIPTS -->
   <script>
     window.onload = function() {

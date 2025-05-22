@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-  <style>
+  <>
     .hr-separator {
       border: 0;
       height: 2px;
@@ -25,85 +25,86 @@
 
     /* —— HAMBURGER MENÜ STYLLERİ (SADECE MOBİL) —— */
     @media screen and (max-width: 768px) {
+      /* Menü arka planı yarı saydam koyu */
       .nav-content {
         background: rgba(0, 0, 0, 0.8);
         padding: 20px;
       }
+
+      /* Menü öğeleri: transparent arka plan, vurgu renkli yazı */
       .nav-content a,
       .nav-content .dropdown > a,
       .nav-content .theme-toggle {
         display: block;
         width: 100%;
-        padding: 16px 0;
-        margin: 8px 0;
+        padding: 12px 0;
+        margin: 0;
         font-size: 1.2rem;
+        background: transparent !important;
         color: #ffb74d !important;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
         text-align: center;
-        position: relative;
-        overflow: hidden;
-        transition: background 0.3s ease, transform 0.2s ease;
+        transition: color 0.3s ease;
       }
       .nav-content a:hover,
       .nav-content .dropdown > a:hover,
       .nav-content .theme-toggle:hover {
-        background: rgba(255, 183, 77, 0.2);
-        transform: translateY(-2px);
+        color: #ffd27f !important;
       }
+
+      /* Her öğe arasında kırmızı animasyonlu ayırıcı */
       .nav-content a:not(:last-of-type)::after,
+      .nav-content .dropdown > a:not(:last-of-type)::after,
       .nav-content .theme-toggle:not(:last-of-type)::after {
         content: '';
         display: block;
         width: 90%;
         height: 2px;
         background: #e74c3c;
-        margin: 12px auto;
+        margin: 8px auto;
         transform-origin: center;
         transform: scaleX(0);
         animation: expandMobile 0.8s ease forwards;
       }
-      @keyframes expandMobile {
-        to { transform: scaleX(1); }
-      }
+
+      /* Vurgulu buton renkleri */
       .nav-content a.highlight-menu {
-        background: rgba(231, 76, 60, 0.3) !important;
         color: #e74c3c !important;
         font-weight: bold;
       }
-      .nav-content a.highlight-menu:hover {
-        background: rgba(231, 76, 60, 0.5) !important;
-      }
       .nav-content a.highlight-login {
-        background: rgba(52, 152, 219, 0.3) !important;
         color: #3498db !important;
         font-weight: bold;
       }
-      .nav-content a.highlight-login:hover {
-        background: rgba(52, 152, 219, 0.5) !important;
-      }
+
+      /* Dropdown içeriği */
       .nav-content .dropdown-content {
-        background: rgba(20, 20, 20, 0.9);
-        margin: 8px 0;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-        overflow: hidden;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 8px 0;
+        border-radius: 0;
       }
       .nav-content .dropdown-content a {
-        padding: 12px 0;
-        color: #ffb74d !important;
+        display: block;
+        padding: 8px 0;
         background: transparent !important;
-        border-bottom: 1px solid rgba(231, 76, 60, 0.3);
-        transition: background 0.2s ease;
+        color: #ffb74d !important;
       }
-      .nav-content .dropdown-content a:last-child {
-        border-bottom: none;
-      }
-      .nav-content .dropdown-content a:hover {
-        background: rgba(231, 76, 60, 0.1) !important;
+      .nav-content .dropdown-content a:not(:last-child)::after {
+        content: '';
+        display: block;
+        width: 80%;
+        height: 1px;
+        background: #e74c3c;
+        margin: 4px auto;
+        transform-origin: center;
+        transform: scaleX(0);
+        animation: expandMobile 0.8s ease forwards;
       }
     }
-  </style>
+
+    @keyframes expandMobile {
+      to { transform: scaleX(1); }
+    }
+</style>
 </head>
 <body id="body">
   <!-- NAVBAR -->
@@ -134,6 +135,7 @@
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
+    <!-- HAMBURGER BUTONU -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
   <!-- HEADER -->
@@ -141,7 +143,7 @@
     <h1 class="glow-text">CodeByEfe</h1>
     <p>Yazılım Geliştirici</p>
   </header>
-  <!-- FLASH MESSAGES -->
+  <!-- FLASH MESAJLAR -->
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <div class="flash-container">
@@ -151,7 +153,7 @@
       </div>
     {% endif %}
   {% endwith %}
-  <!-- MAIN CONTENT -->
+  <!-- ANA İÇERİK -->
   <main>
     {% block content %}{% endblock %}
   </main>
@@ -182,7 +184,6 @@
       });
     });
   </script>
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>
@@ -193,8 +194,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-

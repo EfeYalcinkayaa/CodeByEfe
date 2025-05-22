@@ -568,3 +568,105 @@ body {
     font-size: 1.1rem;
   }
 }
+
+
+@media screen and (min-width: 769px) {
+  .nav-content {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    position: relative !important;
+    width: 100% !important;
+    padding: 0 20px !important;
+    background: rgba(0,102,153,0.95) !important;
+  }
+
+  .nav-left,
+  .nav-center,
+  .nav-right {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .nav-left {
+    justify-content: flex-start;
+  }
+
+  .nav-center {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .nav-right {
+    margin-left: auto !important;
+    justify-content: flex-end;
+  }
+
+  .nav-content a {
+    margin: 0 12px !important;
+  }
+
+  .hamburger,
+  .nav-content hr {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  /* Navbar öğeleri: şeffaf siyah iç + turuncu kenarlık + turuncu yazı */
+  .nav-content a {
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffa500 !important;
+    padding: 6px 12px;
+    border: 1px solid #ffa500;
+    border-radius: 6px;
+    margin: 0 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .nav-content a:hover {
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffd27f !important;
+    border-color: #ffd27f;
+  }
+
+  /* Dropdown başlığı için de aynı stil */
+  .nav-content .dropdown > a {
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffa500 !important;
+    border: 1px solid #ffa500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin: 0 8px;
+  }
+
+  /* Dropdown içeriği: tam siyah arka + turuncu yazı + kaydırma kutusu eğimi */
+  .nav-content .dropdown-content {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .nav-content .dropdown-content a {
+    display: block;
+    background: transparent !important;
+    color: #ffa500 !important;
+    border: none;
+    margin: 4px 0;
+    padding: 6px 8px;
+  }
+  .nav-content .dropdown-content a:hover {
+    color: #ffd27f !important;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  /* Navbar’ın ana arka planını siyaha çeviriyoruz */
+  nav.navbar {
+    background-color: #172f13 !important;
+  }
+
+  /* Eğer nav-content’in arka planı halen mavi ise, onu tamamen kaldır */
+  .nav-content {
+    background: transparent !important;
+  }
+}

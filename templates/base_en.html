@@ -36,23 +36,36 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-content" id="navContent">
-      <a href="/en">Home</a>
-      <hr class="hr-separator">
-      <a href="mailto:efeyalcinkaya@icloud.com">Contact</a>
-      <hr class="hr-separator">
-      <a href="/minigame_en">🎮 Play Mini Game</a>
-      <hr class="hr-separator">
-      <a href="/forum_en">💬 Forum</a>
-      <hr class="hr-separator">
-      {% if session.username %}
-        <span style="color:white;">👤 {{ session.username }}</span>
-        <a href="/logout">Logout</a>
-      {% else %}
-        <a href="/login?lang=en">Login</a>
-      {% endif %}
-      <hr class="hr-separator">
-      <a href="/">🇹🇷 Türkçe</a>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <div class="nav-left">
+        <a href="/en">Home</a>
+        <hr class="hr-separator">
+        <div class="dropdown">
+          <a href="javascript:void(0)">Contact</a>
+          <div class="dropdown-content">
+            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
+            <a href="mailto:efeyalcinkaya@icloud.com">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <a href="/minigame_en">🎮 Play Mini Game</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="/forum_en">💬 Forum</a>
+        <hr class="hr-separator">
+        {% if session.username %}
+          <span style="color:white;">👤 {{ session.username }}</span>
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/login?lang=en">Login</a>
+        {% endif %}
+        <hr class="hr-separator">
+        <a href="/">🇹🇷 Türkçe</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
     </div>
 
     <!-- HAMBURGER BUTTON -->
@@ -82,9 +95,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>
-    &copy; 2025 Ismail Efe Yalcinkaya
-  </footer>
+  <footer>&copy; 2025 Ismail Efe Yalcinkaya</footer>
 
   <!-- THEME & NAVBAR TOGGLE -->
   <script>

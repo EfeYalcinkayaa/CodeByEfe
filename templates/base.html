@@ -36,23 +36,36 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-content" id="navContent">
-      <a href="/">Anasayfa</a>
-      <hr class="hr-separator">
-      <a href="mailto:efeyalcinkaya@icloud.com">İletişim</a>
-      <hr class="hr-separator">
-      <a href="/minigame">🎮 Mini Oyun Oyna</a>
-      <hr class="hr-separator">
-      <a href="/forum">💬 Forum</a>
-      <hr class="hr-separator">
-      {% if session.username %}
-        <span style="color:white;">👤 {{ session.username }}</span>
-        <a href="/logout">Çıkış Yap</a>
-      {% else %}
-        <a href="/login?lang=tr">Giriş Yap</a>
-      {% endif %}
-      <hr class="hr-separator">
-      <a href="/en">🌐 English</a>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <div class="nav-left">
+        <a href="/">Anasayfa</a>
+        <hr class="hr-separator">
+        <div class="dropdown">
+          <a href="javascript:void(0)">İletişim</a>
+          <div class="dropdown-content">
+            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
+            <a href="mailto:efeyalcinkaya@icloud.com">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <a href="/minigame">🎮 Mini Oyun Oyna</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="/forum">💬 Forum</a>
+        <hr class="hr-separator">
+        {% if session.username %}
+          <span style="color:white;">👤 {{ session.username }}</span>
+          <a href="/logout">Çıkış Yap</a>
+        {% else %}
+          <a href="/login?lang=tr">Giriş Yap</a>
+        {% endif %}
+        <hr class="hr-separator">
+        <a href="/en">🌐 English</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
     </div>
 
     <!-- HAMBURGER BUTTON -->
@@ -82,9 +95,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>
-    &copy; 2025 İsmail Efe Yalçınkaya
-  </footer>
+  <footer>&copy; 2025 İsmail Efe Yalçınkaya</footer>
 
   <!-- THEME & NAVBAR TOGGLE -->
   <script>
@@ -106,7 +117,7 @@
     }
   </script>
 
-  <!-- GSAP ANİMASYON -->
+  <!-- GSAP ANIMATION -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>

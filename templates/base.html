@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-  <>
+  <style>
     .hr-separator {
       border: 0;
       height: 2px;
@@ -18,132 +18,67 @@
       background: linear-gradient(to right, transparent, #ff4b2b, transparent);
       animation: expand 1.2s ease forwards;
     }
+
     @keyframes expand {
-      from { transform: scaleX(0); opacity: 0; }
-      to   { transform: scaleX(1); opacity: 1; }
-    }
-
-    /* —— HAMBURGER MENÜ STYLLERİ (SADECE MOBİL) —— */
-    @media screen and (max-width: 768px) {
-      /* Menü arka planı yarı saydam koyu */
-      .nav-content {
-        background: rgba(0, 0, 0, 0.8);
-        padding: 20px;
-      }
-
-      /* Menü öğeleri: transparent arka plan, vurgu renkli yazı */
-      .nav-content a,
-      .nav-content .dropdown > a,
-      .nav-content .theme-toggle {
-        display: block;
-        width: 100%;
-        padding: 12px 0;
-        margin: 0;
-        font-size: 1.2rem;
-        background: transparent !important;
-        color: #ffb74d !important;
-        text-align: center;
-        transition: color 0.3s ease;
-      }
-      .nav-content a:hover,
-      .nav-content .dropdown > a:hover,
-      .nav-content .theme-toggle:hover {
-        color: #ffd27f !important;
-      }
-
-      /* Her öğe arasında kırmızı animasyonlu ayırıcı */
-      .nav-content a:not(:last-of-type)::after,
-      .nav-content .dropdown > a:not(:last-of-type)::after,
-      .nav-content .theme-toggle:not(:last-of-type)::after {
-        content: '';
-        display: block;
-        width: 90%;
-        height: 2px;
-        background: #e74c3c;
-        margin: 8px auto;
-        transform-origin: center;
+      from {
         transform: scaleX(0);
-        animation: expandMobile 0.8s ease forwards;
+        opacity: 0;
       }
-
-      /* Vurgulu buton renkleri */
-      .nav-content a.highlight-menu {
-        color: #e74c3c !important;
-        font-weight: bold;
-      }
-      .nav-content a.highlight-login {
-        color: #3498db !important;
-        font-weight: bold;
-      }
-
-      /* Dropdown içeriği */
-      .nav-content .dropdown-content {
-        background: rgba(0, 0, 0, 0.9);
-        padding: 8px 0;
-        border-radius: 0;
-      }
-      .nav-content .dropdown-content a {
-        display: block;
-        padding: 8px 0;
-        background: transparent !important;
-        color: #ffb74d !important;
-      }
-      .nav-content .dropdown-content a:not(:last-child)::after {
-        content: '';
-        display: block;
-        width: 80%;
-        height: 1px;
-        background: #e74c3c;
-        margin: 4px auto;
-        transform-origin: center;
-        transform: scaleX(0);
-        animation: expandMobile 0.8s ease forwards;
+      to {
+        transform: scaleX(1);
+        opacity: 1;
       }
     }
-
-    @keyframes expandMobile {
-      to { transform: scaleX(1); }
-    }
-</style>
+  </style>
 </head>
+
 <body id="body">
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-content" id="navContent">
       <div class="nav-left">
         <a href="/">Anasayfa</a>
+        <hr class="hr-separator">
         <div class="dropdown">
-          <a class="dropdown-toggle" href="javascript:void(0)" onclick="toggleDropdown(event)">İletişim</a>
+          <a href="javascript:void(0)">İletişim</a>
           <div class="dropdown-content">
-            <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
+            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
             <a href="mailto:efeyalcinkaya@icloud.com">Email</a>
           </div>
         </div>
       </div>
+
       <div class="nav-center">
-        <a href="/minigame" class="highlight-menu">🎮 Mini Oyun Oyna</a>
+        <a href="/minigame">🎮 Mini Oyun Oyna</a>
       </div>
+
       <div class="nav-right">
         <a href="/forum">💬 Forum</a>
+        <hr class="hr-separator">
         {% if session.username %}
-          <a href="/logout">👤 Çıkış Yap</a>
+          <span style="color:white;">👤 {{ session.username }}</span>
+          <a href="/logout">Çıkış Yap</a>
         {% else %}
-          <a href="/login?lang=tr" class="highlight-login">Giriş Yap</a>
+          <a href="/login?lang=tr">Giriş Yap</a>
         {% endif %}
+        <hr class="hr-separator">
         <a href="/en">🌐 English</a>
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
-    <!-- HAMBURGER BUTONU -->
+
+    <!-- HAMBURGER BUTTON -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
+
   <!-- HEADER -->
   <header>
     <h1 class="glow-text">CodeByEfe</h1>
     <p>Yazılım Geliştirici</p>
   </header>
-  <!-- FLASH MESAJLAR -->
+
+  <!-- FLASH MESSAGES -->
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <div class="flash-container">
@@ -153,44 +88,56 @@
       </div>
     {% endif %}
   {% endwith %}
-  <!-- ANA İÇERİK -->
+
+  <!-- MAIN CONTENT -->
   <main>
     {% block content %}{% endblock %}
   </main>
+
   <!-- FOOTER -->
   <footer>&copy; 2025 İsmail Efe Yalçınkaya</footer>
-  <!-- SCRIPTS -->
+
+  <!-- THEME & NAVBAR TOGGLE -->
   <script>
-    window.onload = function() {
+    window.onload = function () {
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") document.getElementById("body").classList.add("dark-mode");
+      if (savedTheme === "dark") {
+        document.getElementById("body").classList.add("dark-mode");
+      }
     };
+
     function toggleTheme() {
       const body = document.getElementById("body");
       body.classList.toggle("dark-mode");
       localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
     }
+
     function toggleNavbar() {
       document.getElementById("navContent").classList.toggle("show");
     }
-    function toggleDropdown(event) {
-      event.stopPropagation();
-      const dropdown = event.currentTarget.parentElement;
-      dropdown.classList.toggle("open");
-    }
-    document.addEventListener("click", function(e) {
-      document.querySelectorAll('.dropdown.open').forEach(dd => {
-        if (!dd.contains(e.target)) dd.classList.remove('open');
-      });
-    });
   </script>
+
+  <!-- GSAP ANIMATION -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray(".info-card").forEach(el => {
-      gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }});
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        });
     });
   </script>
 </body>
 </html>
+

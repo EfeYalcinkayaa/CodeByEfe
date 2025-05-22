@@ -770,114 +770,48 @@ body {
   }
 }
 
-/* —— HAMBURGER MENÜ (MOBİL) —— */
+/* —— MOBİL HAMBURGER MENÜ STİLLERİ —— */
 @media screen and (max-width: 768px) {
-  /* Menü genel arkaplanı kaldırıldı */
+  /* Menü kapsayıcısı: saydam, dikey düzen */
   .nav-content {
+    display: flex;
+    flex-direction: column;
     background: transparent !important;
     padding: 0 16px;
   }
 
-  /* Ana linkler: transparent, parlak turuncu yazı */
+  /* Tüm menü linkleri ve butonlar: tam genişlik, kutu arka plan, ortak metin rengi */
   .nav-content a,
   .nav-content .dropdown > a,
   .nav-content .theme-toggle {
     display: block;
     width: 100%;
+    margin: 8px 0;
     padding: 14px 0;
-    margin: 0;
     font-size: 1.2rem;
-    background: transparent !important;
-    color: #ffb74d !important;
+    background: rgba(30, 30, 60, 0.8) !important;  /* gece mavisi ton */
+    color: #ffb74d !important;                     /* turuncu metin */
     text-align: center;
-    transition: color 0.3s ease;
+    border-radius: 8px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
   }
+  /* Hover rengi */
   .nav-content a:hover,
   .nav-content .dropdown > a:hover,
   .nav-content .theme-toggle:hover {
     color: #ffd27f !important;
   }
 
-  /* Öğeler arası animasyonlu kırmızı ayırıcı */
-  .nav-content a:not(:last-of-type)::after,
-  .nav-content .dropdown > a:not(:last-of-type)::after,
-  .nav-content .theme-toggle:not(:last-of-type)::after {
-    content: '';
-    display: block;
-    width: 90%;
-    height: 2px;
-    background: #e74c3c;
-    margin: 8px auto;
-    transform-origin: center;
-    transform: scaleX(0);
-    animation: expandMobile 0.6s ease forwards;
-  }
-
-  /* “Mini Oyun Oyna” vurgusu */
-  .nav-content a.highlight-menu {
-    color: #e74c3c !important;
-    font-weight: bold;
-  }
-
-  /* “Giriş Yap” vurgusu */
-  .nav-content a.highlight-login {
-    color: #3498db !important;
-    font-weight: bold;
-  }
-
-  /* Dropdown içindeki linkler arasındaki çizgiler */
-  .nav-content .dropdown-content a:not(:last-child)::after {
-    content: '';
-    display: block;
-    width: 80%;
-    height: 1px;
-    background: #e74c3c;
-    margin: 4px auto;
-    transform-origin: center;
-    transform: scaleX(0);
-    animation: expandMobile 0.6s ease forwards;
-  }
-
-  @keyframes expandMobile {
-    to { transform: scaleX(1); }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  /* Menü kutucukları */
-  .nav-content a,
-  .nav-content .dropdown > a,
-  .nav-content .theme-toggle {
-    display: block;
-    width: 100%;
-    padding: 14px 0;
-    margin: 8px 0;
-    background: rgba(0,0,0,0.6) !important;
-    color: #ffb74d !important;         /* Temel metin rengi */
-    text-align: center;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Dil + tema arasına boşluk */
+  /* Dil ve tema butonları arasına ekstra boşluk */
   .nav-content a[href*="lang="],
   .nav-content .theme-toggle {
     margin-top: 16px;
   }
 
-  /* Eski separator çizgileri tamamen kaldır */
-  .nav-content a::after,
-  .nav-content .dropdown > a::after,
-  .nav-content .theme-toggle::after {
-    display: none !important;
-    content: none !important;
-  }
-
-  /* Mini Oyun Oyna: turuncu yanıp sönme */
+  /* Mini Oyun Oyna: açık yeşil yanıp sönme */
   .nav-content a.highlight-menu {
-    color: #19b5c4 !important;
-    animation: pulseOrange 1.5s infinite alternate;
+    color: #90EE90 !important;
+    animation: pulseGreen 1.5s infinite alternate;
   }
 
   /* Giriş Yap: kırmızı yanıp sönme */
@@ -885,17 +819,35 @@ body {
     color: #e74c3c !important;
     animation: pulseRed 1.5s infinite alternate;
   }
+
+  /* Dropdown açılır menü: aynı kutu stili */
+  .nav-content .dropdown-content {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+    padding: 0;
+  }
+  .nav-content .dropdown-content a {
+    width: 100%;
+    margin: 4px 0;
+    padding: 12px 0;
+    background: rgba(30, 30, 60, 0.8) !important;
+    color: #ffb74d !important;
+    text-align: center;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  .nav-content .dropdown-content a:hover {
+    background: rgba(30, 30, 100, 0.9) !important;
+  }
 }
 
-/* Animasyon anahtarları */
-@keyframes pulseOrange {
-  from { text-shadow: 0 0 4px #19c5b4; }
-  to   { text-shadow: 0 0 16px #19c5b4; }
+/* —— ANİMASYON ANAHTARLARI —— */
+@keyframes pulseGreen {
+  from { text-shadow: 0 0 4px #90EE90; }
+  to   { text-shadow: 0 0 16px #90EE90; }
 }
 @keyframes pulseRed {
   from { text-shadow: 0 0 4px #e74c3c; }
   to   { text-shadow: 0 0 16px #e74c3c; }
 }
-
-
-

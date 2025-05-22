@@ -843,4 +843,59 @@ body {
   }
 }
 
+@media screen and (max-width: 768px) {
+  /* Menü kutucukları */
+  .nav-content a,
+  .nav-content .dropdown > a,
+  .nav-content .theme-toggle {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    margin: 8px 0;
+    background: rgba(0,0,0,0.6) !important;
+    color: #ffb74d !important;         /* Temel metin rengi */
+    text-align: center;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Dil + tema arasına boşluk */
+  .nav-content a[href*="lang="],
+  .nav-content .theme-toggle {
+    margin-top: 16px;
+  }
+
+  /* Eski separator çizgileri tamamen kaldır */
+  .nav-content a::after,
+  .nav-content .dropdown > a::after,
+  .nav-content .theme-toggle::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Mini Oyun Oyna: turuncu yanıp sönme */
+  .nav-content a.highlight-menu {
+    color: #19b5c4 !important;
+    animation: pulseOrange 1.5s infinite alternate;
+  }
+
+  /* Giriş Yap: kırmızı yanıp sönme */
+  .nav-content a.highlight-login {
+    color: #e74c3c !important;
+    animation: pulseRed 1.5s infinite alternate;
+  }
+}
+
+/* Animasyon anahtarları */
+@keyframes pulseOrange {
+  from { text-shadow: 0 0 4px #19c5b4; }
+  to   { text-shadow: 0 0 16px #19c5b4; }
+}
+@keyframes pulseRed {
+  from { text-shadow: 0 0 4px #e74c3c; }
+  to   { text-shadow: 0 0 16px #e74c3c; }
+}
+
+
 

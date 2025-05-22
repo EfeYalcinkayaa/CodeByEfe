@@ -699,3 +699,75 @@ body {
   }
 }
 
+/* —— HAMBURGER MENÜ İÇ STİLLERİ (SADECE MOBİL) —— */
+@media screen and (max-width: 768px) {
+  /* Menü arka planı */
+  .nav-content {
+    padding: 24px 16px;
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  /* Menü öğeleri: koyu fon + parlak yazı + hafif gölge */
+  .nav-content a,
+  .nav-content .dropdown > a,
+  .nav-content .theme-toggle {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 16px 0;
+    margin: 0;
+    font-size: 1.3rem;
+    color: #ffb74d !important;              /* canlı turuncu */
+    background: rgba(30, 30, 30, 0.6);       /* koyu ama desen görünsün */
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  /* Hover / aktif durum */
+  .nav-content a:hover,
+  .nav-content .dropdown > a:hover,
+  .nav-content .theme-toggle:hover {
+    background: rgba(255, 183, 77, 0.2);    /* hafif turuncu ton */
+    transform: translateY(-2px);
+  }
+
+  /* Öğeler arası estetik ayırıcı çizgi */
+  .nav-content hr {
+    display: block !important;
+    width: 80%;
+    height: 1px;
+    margin: 20px auto;
+    border: none;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 183, 77, 0.4),
+      transparent
+    );
+  }
+
+  /* Dropdown açılır menü kutusu */
+  .nav-content .dropdown-content {
+    background: rgba(20, 20, 20, 0.9);
+    margin: 12px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+  }
+  .nav-content .dropdown-content a {
+    padding: 12px 0;
+    color: #ffb74d !important;
+    border-bottom: 1px solid rgba(255, 183, 77, 0.2);
+    transition: background 0.2s ease;
+  }
+  .nav-content .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+  .nav-content .dropdown-content a:hover {
+    background: rgba(255, 183, 77, 0.1);
+  }
+}
+
+

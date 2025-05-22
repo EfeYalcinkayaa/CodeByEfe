@@ -23,15 +23,12 @@
       to   { transform: scaleX(1); opacity: 1; }
     }
 
-    /* —— HAMBURGER MENÜ İÇ STİLLERİ (SADAKATLI VE ESTETİK) —— */
+    /* —— HAMBURGER MENÜ STYLLERİ (SADECE MOBİL) —— */
     @media screen and (max-width: 768px) {
-      /* Menü arka planı yarı saydam koyu */
       .nav-content {
         background: rgba(0, 0, 0, 0.8);
         padding: 20px;
       }
-
-      /* Menü öğeleri: tam genişlik, dış kenar boşluğu, parlak turuncu yazı */
       .nav-content a,
       .nav-content .dropdown > a,
       .nav-content .theme-toggle {
@@ -44,6 +41,8 @@
         background: rgba(255, 255, 255, 0.05);
         border-radius: 8px;
         text-align: center;
+        position: relative;
+        overflow: hidden;
         transition: background 0.3s ease, transform 0.2s ease;
       }
       .nav-content a:hover,
@@ -52,18 +51,37 @@
         background: rgba(255, 183, 77, 0.2);
         transform: translateY(-2px);
       }
-
-      /* Bölümler arası estetik ayırıcı */
-      .nav-content hr {
+      .nav-content a:not(:last-of-type)::after,
+      .nav-content .theme-toggle:not(:last-of-type)::after {
+        content: '';
         display: block;
         width: 90%;
-        height: 1px;
-        margin: 16px auto;
-        background: rgba(255, 183, 77, 0.4);
-        border: none;
+        height: 2px;
+        background: #e74c3c;
+        margin: 12px auto;
+        transform-origin: center;
+        transform: scaleX(0);
+        animation: expandMobile 0.8s ease forwards;
       }
-
-      /* Dropdown içerik stili */
+      @keyframes expandMobile {
+        to { transform: scaleX(1); }
+      }
+      .nav-content a.highlight-menu {
+        background: rgba(231, 76, 60, 0.3) !important;
+        color: #e74c3c !important;
+        font-weight: bold;
+      }
+      .nav-content a.highlight-menu:hover {
+        background: rgba(231, 76, 60, 0.5) !important;
+      }
+      .nav-content a.highlight-login {
+        background: rgba(52, 152, 219, 0.3) !important;
+        color: #3498db !important;
+        font-weight: bold;
+      }
+      .nav-content a.highlight-login:hover {
+        background: rgba(52, 152, 219, 0.5) !important;
+      }
       .nav-content .dropdown-content {
         background: rgba(20, 20, 20, 0.9);
         margin: 8px 0;
@@ -75,14 +93,14 @@
         padding: 12px 0;
         color: #ffb74d !important;
         background: transparent !important;
-        border-bottom: 1px solid rgba(255, 183, 77, 0.3);
+        border-bottom: 1px solid rgba(231, 76, 60, 0.3);
         transition: background 0.2s ease;
       }
       .nav-content .dropdown-content a:last-child {
         border-bottom: none;
       }
       .nav-content .dropdown-content a:hover {
-        background: rgba(255, 183, 77, 0.1) !important;
+        background: rgba(231, 76, 60, 0.1) !important;
       }
     }
   </style>
@@ -93,46 +111,36 @@
     <div class="nav-content" id="navContent">
       <div class="nav-left">
         <a href="/">Anasayfa</a>
-        <hr class="hr-separator">
         <div class="dropdown">
           <a class="dropdown-toggle" href="javascript:void(0)" onclick="toggleDropdown(event)">İletişim</a>
           <div class="dropdown-content">
-            <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
-            <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
             <a href="mailto:efeyalcinkaya@icloud.com">Email</a>
           </div>
         </div>
       </div>
-
       <div class="nav-center">
-        <a href="/minigame">🎮 Mini Oyun Oyna</a>
+        <a href="/minigame" class="highlight-menu">🎮 Mini Oyun Oyna</a>
       </div>
-
       <div class="nav-right">
         <a href="/forum">💬 Forum</a>
-        <hr class="hr-separator">
         {% if session.username %}
-          <span style="color:white;">👤 {{ session.username }}</span>
-          <a href="/logout">Çıkış Yap</a>
+          <a href="/logout">👤 Çıkış Yap</a>
         {% else %}
-          <a href="/login?lang=tr">Giriş Yap</a>
+          <a href="/login?lang=tr" class="highlight-login">Giriş Yap</a>
         {% endif %}
-        <hr class="hr-separator">
         <a href="/en">🌐 English</a>
         <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
-
-    <!-- HAMBURGER BUTTON -->
     <button class="hamburger" onclick="toggleNavbar()">☰</button>
   </nav>
-
   <!-- HEADER -->
   <header>
     <h1 class="glow-text">CodeByEfe</h1>
     <p>Yazılım Geliştirici</p>
   </header>
-
   <!-- FLASH MESSAGES -->
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -143,16 +151,13 @@
       </div>
     {% endif %}
   {% endwith %}
-
   <!-- MAIN CONTENT -->
   <main>
     {% block content %}{% endblock %}
   </main>
-
   <!-- FOOTER -->
   <footer>&copy; 2025 İsmail Efe Yalçınkaya</footer>
-
-  <!-- THEME, NAVBAR & DROPDOWN TOGGLE -->
+  <!-- SCRIPTS -->
   <script>
     window.onload = function() {
       const savedTheme = localStorage.getItem("theme");
@@ -177,8 +182,7 @@
       });
     });
   </script>
-
-  <!-- GSAP ANIMATION -->
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script>
@@ -189,3 +193,8 @@
   </script>
 </body>
 </html>
+
+
+
+
+

@@ -14,14 +14,13 @@
     </p>
   </section>
 
-
   <section class="grid-section">
     <div class="info-card fadein">
       <h3>📄 Resume</h3>
       <p>You can view my CV from here.</p>
       <a class="btn btn-primary" href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv_en.pdf') }}" target="_blank">
-  📄 View CV
-</a>
+        📄 View CV
+      </a>
     </div>
 
     <div class="info-card fadein">
@@ -41,6 +40,17 @@
       <p>Check out achievements here.</p>
       <a class="btn" href="/achievements">View Achievements</a>
     </div>
-
   </section>
+
+  <div style="display: flex; justify-content: center; margin-top: 60px;">
+  <div class="info-card fadein" style="max-width: 320px;">
+    <h3>🎤 Interviews</h3>
+    <p>You can watch my interview videos here.</p>
+    <div style="margin-top: 10px;">
+      <a class="btn" href="/roportaj_en">View Interview</a>
+    </div>
+  </div>
+</div>
+
+  </div>
 {% endblock %}

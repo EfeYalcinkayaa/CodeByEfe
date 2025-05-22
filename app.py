@@ -88,6 +88,15 @@ def download_cv():
 def download_cv_en():
     return send_from_directory('static/cv', 'ismail_efe_yalcinkaya_cv_en.pdf', as_attachment=True)
 
+@app.route('/roportaj')
+def roportaj():
+    return render_template('roportaj.html')
+
+# İngilizce röportaj sayfası
+@app.route('/roportaj_en')
+def roportaj_en():
+    return render_template('roportaj_en.html')
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     lang = request.args.get("lang")

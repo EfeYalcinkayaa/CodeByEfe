@@ -19,8 +19,8 @@
       <h3>📄 CV</h3>
       <p>Özgeçmişimi buradan görüntüleyebilirsiniz.</p>
       <a class="btn btn-primary" href="{{ url_for('static', filename='cv/ismail_efe_yalcinkaya_cv.pdf') }}" target="_blank">
-  📄 CV’yi Görüntüle
-</a>
+        📄 CV’yi Görüntüle
+      </a>
     </div>
 
     <div class="info-card fadein">
@@ -40,6 +40,17 @@
       <p>Kazandığım ödüller, dereceler ve kişisel gelişim başarılarım.</p>
       <a class="btn" href="/basarilar">Başarıları Gör</a>
     </div>
-
   </section>
+
+  <div style="display: flex; justify-content: center; margin-top: 60px;">
+    <a href="/roportaj" style="text-decoration: none;">
+      <div class="info-card fadein" style="max-width: 320px;">
+        <h3 style="color: #3b82f6;">🎤 Röportaj</h3>
+        <p style="color: #e0e0e0;">Röportaj videolarımı buradan izleyebilirsin.</p>
+        <div style="margin-top: 10px;">
+          <span class="btn">Röportajı Gör</span>
+        </div>
+      </div>
+    </a>
+  </div>
 {% endblock %}

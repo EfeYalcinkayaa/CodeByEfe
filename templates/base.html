@@ -18,20 +18,75 @@
       background: linear-gradient(to right, transparent, #ff4b2b, transparent);
       animation: expand 1.2s ease forwards;
     }
-
     @keyframes expand {
-      from {
-        transform: scaleX(0);
-        opacity: 0;
+      from { transform: scaleX(0); opacity: 0; }
+      to   { transform: scaleX(1); opacity: 1; }
+    }
+
+    /* —— HAMBURGER MENÜ İÇ STİLLERİ (SADAKATLI VE ESTETİK) —— */
+    @media screen and (max-width: 768px) {
+      /* Menü arka planı yarı saydam koyu */
+      .nav-content {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
       }
-      to {
-        transform: scaleX(1);
-        opacity: 1;
+
+      /* Menü öğeleri: tam genişlik, dış kenar boşluğu, parlak turuncu yazı */
+      .nav-content a,
+      .nav-content .dropdown > a,
+      .nav-content .theme-toggle {
+        display: block;
+        width: 100%;
+        padding: 16px 0;
+        margin: 8px 0;
+        font-size: 1.2rem;
+        color: #ffb74d !important;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        text-align: center;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+      .nav-content a:hover,
+      .nav-content .dropdown > a:hover,
+      .nav-content .theme-toggle:hover {
+        background: rgba(255, 183, 77, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Bölümler arası estetik ayırıcı */
+      .nav-content hr {
+        display: block;
+        width: 90%;
+        height: 1px;
+        margin: 16px auto;
+        background: rgba(255, 183, 77, 0.4);
+        border: none;
+      }
+
+      /* Dropdown içerik stili */
+      .nav-content .dropdown-content {
+        background: rgba(20, 20, 20, 0.9);
+        margin: 8px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        overflow: hidden;
+      }
+      .nav-content .dropdown-content a {
+        padding: 12px 0;
+        color: #ffb74d !important;
+        background: transparent !important;
+        border-bottom: 1px solid rgba(255, 183, 77, 0.3);
+        transition: background 0.2s ease;
+      }
+      .nav-content .dropdown-content a:last-child {
+        border-bottom: none;
+      }
+      .nav-content .dropdown-content a:hover {
+        background: rgba(255, 183, 77, 0.1) !important;
       }
     }
   </style>
 </head>
-
 <body id="body">
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -40,7 +95,7 @@
         <a href="/">Anasayfa</a>
         <hr class="hr-separator">
         <div class="dropdown">
-          <a href="javascript:void(0)">İletişim</a>
+          <a class="dropdown-toggle" href="javascript:void(0)" onclick="toggleDropdown(event)">İletişim</a>
           <div class="dropdown-content">
             <a href="https://instagram.com/efeyalcinkayaa" target="_blank">Instagram</a>
             <a href="https://www.linkedin.com/in/ismail-efe-yalçınkaya-835b4728a/" target="_blank">LinkedIn</a>
@@ -97,24 +152,30 @@
   <!-- FOOTER -->
   <footer>&copy; 2025 İsmail Efe Yalçınkaya</footer>
 
-  <!-- THEME & NAVBAR TOGGLE -->
+  <!-- THEME, NAVBAR & DROPDOWN TOGGLE -->
   <script>
-    window.onload = function () {
+    window.onload = function() {
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
-        document.getElementById("body").classList.add("dark-mode");
-      }
+      if (savedTheme === "dark") document.getElementById("body").classList.add("dark-mode");
     };
-
     function toggleTheme() {
       const body = document.getElementById("body");
       body.classList.toggle("dark-mode");
       localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
     }
-
     function toggleNavbar() {
       document.getElementById("navContent").classList.toggle("show");
     }
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      const dropdown = event.currentTarget.parentElement;
+      dropdown.classList.toggle("open");
+    }
+    document.addEventListener("click", function(e) {
+      document.querySelectorAll('.dropdown.open').forEach(dd => {
+        if (!dd.contains(e.target)) dd.classList.remove('open');
+      });
+    });
   </script>
 
   <!-- GSAP ANIMATION -->
@@ -123,19 +184,7 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray(".info-card").forEach(el => {
-      gsap.fromTo(el,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none"
-          }
-        });
+      gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }});
     });
   </script>
 </body>

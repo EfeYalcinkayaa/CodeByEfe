@@ -933,3 +933,26 @@ body {
   to   { text-shadow: 0 0 16px #e74c3c; }
 }
 
+.flash-messages {
+  background-color: #ffe9e9;
+  border: 1px solid #ff9999;
+  border-left: 6px solid #d33;
+  padding: 10px 15px;
+  border-radius: 6px;
+  color: #b30000;
+  font-weight: 500;
+  margin-bottom: 20px;
+  font-family: sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.flash-messages li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

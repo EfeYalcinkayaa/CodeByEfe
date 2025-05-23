@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from dotenv import load_dotenv
 import os
 from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify, send_from_directory
@@ -101,26 +102,48 @@ def roportaj_en():
 def register():
     lang = request.args.get("lang")
     if request.method == "POST":
-        username = request.form['username']
-        email = request.form['email']
-        password = generate_password_hash(request.form['password'])
+        try:
+            username = request.form['username'].strip()
+            email = request.form['email'].strip()
+            password = generate_password_hash(request.form['password'])
 
-        if User.query.filter_by(username=username).first():
-            flash("Username already exists." if lang == "en" else "Kullanıcı adı zaten var.")
+            user = User(username=username, email=email, password=password, aktif=False)
+            db.session.add(user)
+            db.session.commit()
+
+            token = serializer.dumps(email, salt='email-confirm')
+            confirm_url = url_for('confirm_email', token=token, _external=True)
+            msg = Message("Email Confirmation", recipients=[email])
+            msg.body = f"Hi {username}, click the link to activate your account: {confirm_url}"
+
+            try:
+                mail.send(msg)
+            except Exception as e:
+                print("Mail gönderilemedi:", e)
+                flash("Email could not be sent." if lang == "en" else "E-posta gönderilemedi.")
+                return redirect("/register")
+
+            flash("Please check your email to activate your account." if lang == "en" else "Lütfen e-postanızı kontrol edin.")
+            return redirect("/login")
+
+        except IntegrityError as e:
+            db.session.rollback()
+            error_message = str(e.orig)  # veritabanından gelen mesaj
+
+            if "username" in error_message:
+                flash("Username already exists." if lang == "en" else "Kullanıcı adı zaten var.")
+            elif "email" in error_message:
+                flash("Email already registered." if lang == "en" else "Bu e-posta zaten kayıtlı.")
+            else:
+                flash("A database integrity error occurred." if lang == "en" else "Veritabanı hatası oluştu.")
             return redirect("/register")
 
-        user = User(username=username, email=email, password=password, aktif=False)
-        db.session.add(user)
-        db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print("Genel kayıt hatası:", e)
+            flash("An unexpected error occurred." if lang == "en" else "Beklenmeyen bir hata oluştu.")
+            return redirect("/register")
 
-        token = serializer.dumps(email, salt='email-confirm')
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        msg = Message("Email Confirmation", recipients=[email])
-        msg.body = f"Hi {username}, click the link to activate your account: {confirm_url}"
-        mail.send(msg)
-
-        flash("Please check your email to activate your account." if lang == "en" else "Lütfen hesabınızı aktifleştirmek için e-postanızı kontrol edin.")
-        return redirect("/login")
     return render_template("register_en.html" if lang == "en" else "register.html")
 
 @app.route("/confirm/<token>")
